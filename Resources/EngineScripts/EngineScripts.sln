@@ -7,12 +7,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineScripts", "EngineScri
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Build|x64 = Build|x64
 		Build|x86 = Build|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{69FDC3B3-DD19-479B-A91A-CB37F9A65FDD}.Build|x64.ActiveCfg = Build|x64
-		{69FDC3B3-DD19-479B-A91A-CB37F9A65FDD}.Build|x64.Build.0 = Build|x64
 		{69FDC3B3-DD19-479B-A91A-CB37F9A65FDD}.Build|x86.ActiveCfg = Build|Win32
 		{69FDC3B3-DD19-479B-A91A-CB37F9A65FDD}.Build|x86.Build.0 = Build|Win32
 	EndGlobalSection

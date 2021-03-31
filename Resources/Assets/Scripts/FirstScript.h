@@ -13,7 +13,7 @@ public :
 	void Update() override;
 	void PostUpdate()override;
 	void CleanUp()override;
-	int firstVariable = 40;
+	int firstVariable = 10;
 };
 
 SCRIPTS_FUNCTION ola* Createola() {
