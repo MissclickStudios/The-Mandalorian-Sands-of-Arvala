@@ -361,9 +361,6 @@ NULL Engine/Intermediate/NULL Engine.vcxproj.FileListAbsolute.txt
 *.netex
 *.recipe
 
-# Project Build Directory and core dll
-NULL Engine/Build/
-NULL Engine/Resources/EngineScripts/Output
 *EngineScripts.dll
 
-NULL Engine/Resources/Engine/Configuration/configuration.JSON
+*configuration.JSON
