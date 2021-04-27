@@ -3,19 +3,19 @@
 
 //Import/export define
 #ifdef NULL_BUILD_DLL
-#define NULL_API __declspec(dllexport)
+#define MISSCLICK_API __declspec(dllexport)
 #else
-#define NULL_API __declspec(dllimport)
+#define MISSCLICK_API __declspec(dllimport)
 #endif
 
-#ifndef GAMEBUILD
+#ifndef GAMEBUILD //TODO: When this gets included on the scripts project the macro never gets expanded
 #include <string>
 #endif // !GAMEBUILD
 
 class GameObject;
 class C_Transform;
 
-class NULL_API Script {
+class MISSCLICK_API Script {
 
 public:
 	Script() {}
@@ -34,12 +34,12 @@ public:
 	bool IsScriptEnabled() const;
 	void SetScriptEnable(const bool& enable);
 
-	virtual void OnCollisionEnter() {}
-	virtual void OnCollisionRepeat() {}
-	virtual void OnCollisionExit() {}
-	virtual void OnTriggerEnter() {}
-	virtual void OnTriggerRepeat() {}
-	virtual void OnTriggerExit() {}
+	virtual void OnCollisionEnter(GameObject* object) {}
+	virtual void OnCollisionRepeat(GameObject* object) {}
+	virtual void OnCollisionExit(GameObject* object) {}
+	virtual void OnTriggerEnter(GameObject* object) {}
+	virtual void OnTriggerRepeat(GameObject* object) {}
+	virtual void OnTriggerExit(GameObject* object) {}
 
 public:
 	GameObject* gameObject = nullptr;

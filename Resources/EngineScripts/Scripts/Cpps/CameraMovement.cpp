@@ -1,11 +1,17 @@
-#include "Application.h"
-#include "M_Scene.h"
+#include "VariableTypedefs.h"
 #include "Log.h"
+
+#include "Application.h"
+
+#include "M_Scene.h"
+
+#include "M_Scene.h"
 
 #include "GameObject.h"
 #include "C_Transform.h"
 
 #include "CameraMovement.h"
+
 
 CameraMovement::CameraMovement() : Script()
 {
@@ -15,25 +21,20 @@ CameraMovement::~CameraMovement()
 {
 }
 
+void CameraMovement::Start()
+{
+	player = App->scene->GetGameObjectByName(playerName.c_str());
+}
+
 void CameraMovement::Update()
 {
-	if (!player)
-	{
-		std::vector<GameObject*>* objects = App->scene->GetGameObjects();
-		//TODO
-		//for (int i = 0; i < objects->size(); ++i)
-		//	if ((*objects)[i]->GetComponent<C_PlayerController>())
-		//	{
-		//		player = (*objects)[i];
-		//		break;
-		//	}
-	}
-	else
-	{
-		float3 position = player->transform->GetWorldPosition();
-		position += offset;
-		gameObject->transform->SetWorldPosition(position);
-	}
+
+	if (player == nullptr)
+		return;
+
+	float3 position = player->transform->GetWorldPosition();
+	position += offset;
+	gameObject->transform->SetWorldPosition(position);
 }
 
 void CameraMovement::CleanUp()

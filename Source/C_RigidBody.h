@@ -6,7 +6,7 @@
 #include "MathGeoLib/include/Math/float3.h"
 #include "PhysX_3.4/Include/PxPhysicsAPI.h"
 
-class NULL_API C_RigidBody : public Component
+class MISSCLICK_API C_RigidBody : public Component
 {
 public:
 
@@ -61,6 +61,9 @@ public:
 
 	bool					IsSleeping() { return dynamicBody->isSleeping(); }
 
+	const std::string* const GetFilter() { return &filter; }
+	void ChangeFilter(const std::string& const);
+
 	inline physx::PxRigidActor* const GetRigidBody() { if (isStatic) return staticBody; else return dynamicBody; }
 
 	bool IsStatic() { return isStatic; }
@@ -97,6 +100,9 @@ private:
 	bool freezeRotationX = false;
 	bool freezeRotationY = false;
 	bool freezeRotationZ = false;
+
+	std::string filter = "default";
+	bool toChangeFilter = true;
 };
 
 #endif // !__C_RIGIDBODY_H__

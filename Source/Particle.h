@@ -26,11 +26,11 @@ public:
 
 	void Update(float dt);
 
-	void ScreenAligned(C_Camera* currentCamera = nullptr);
+	/*void ScreenAligned(C_Camera* currentCamera = nullptr);
 	void WorldAligned(C_Camera* currentCamera = nullptr);
 	void AxisAligned(C_Camera* currentCamera = nullptr);
 
-	void ApplyBillboarding(Billboarding type = Billboarding::NONE);
+	void ApplyBillboarding(Billboarding type = Billboarding::NONE);*/
 
 public:
 	
@@ -39,6 +39,7 @@ public:
 
 	float maxLifetime;
 	float currentLifetime = 0;  
+	float normalizedLifetime;
 
 	float rotation;
 

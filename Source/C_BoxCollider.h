@@ -7,7 +7,7 @@
 
 #include "MathGeoLib/include/Math/float3.h"
 
-class NULL_API C_BoxCollider : public Component
+class MISSCLICK_API C_BoxCollider : public Component
 {
 public:
 
@@ -36,6 +36,10 @@ public:
 	bool			ToShowCollider() const { return showBoxCollider; }
 	void			SetShowCollider(bool enable) { showBoxCollider = enable; }
 
+	void UpdateFilter();
+
+	std::string* GetFil() { return fil; };
+
 private:
 
 	void CreateCollider();
@@ -51,6 +55,8 @@ private:
 
 	float3* boxColliderVertices;
 	bool showBoxCollider = false;
+
+	std::string* fil = nullptr;
 };
 
 #endif // !__C_BOXCOLLIDERCOMPONENT_H__

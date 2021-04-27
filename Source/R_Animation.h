@@ -5,12 +5,13 @@
 #include <map>
 
 #include "Resource.h"
+#include "Channel.h"
 #include "AnimationSettings.h"
 
 class ParsonNode;
 struct Channel;
 
-class R_Animation : public Resource
+class MISSCLICK_API R_Animation : public Resource
 {
 public:
 	R_Animation();
@@ -21,6 +22,8 @@ public:
 	bool SaveMeta(ParsonNode& metaRoot) const override;
 	bool LoadMeta(const ParsonNode& metaRoot) override;
 
+	static inline ResourceType GetType() { return ResourceType::ANIMATION; }
+
 public:
 	const char* GetName				() const;
 	double		GetDuration			() const;
@@ -29,6 +32,7 @@ public:
 	void		SetName				(const char* name);
 	void		SetDuration			(const double& duration);
 	void		SetTicksPerSecond	(const double& ticksPerSecond);
+
 
 public:
 	std::vector<Channel>	channels;

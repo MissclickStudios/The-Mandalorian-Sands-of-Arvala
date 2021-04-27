@@ -7,7 +7,7 @@
 
 #include "MathGeoLib/include/Math/float3.h"
 
-class NULL_API C_SphereCollider : public Component
+class MISSCLICK_API C_SphereCollider : public Component
 {
 public:
 
@@ -32,6 +32,8 @@ public:
 
 	const float		Radius() const { return radius; }
 	void			SetRadius(float r) { radius = r; ToUpdate(ColliderUpdateType::SHAPE); }
+
+	void UpdateFilter() { ToUpdate(ColliderUpdateType::STATE); }
 
 private:
 

@@ -4,31 +4,32 @@
 #include "MathGeoLib/include/Math/float3.h"
 #include "Application.h"
 #include "M_Input.h"
+#include "GameObject.h"
 
-ola::ola() : Script()
+FirstScript::FirstScript() : Script()
 {
 }
 
-ola::~ola()
+FirstScript::~FirstScript()
 {
 }
 
-void ola::Awake()
+void FirstScript::Awake()
 {
 	LOG("Awake");
 }
 
-void ola::Start()
+void FirstScript::Start()
 {
 	LOG("Start");
 }
 
-void ola::PreUpdate()
+void FirstScript::PreUpdate()
 {
 	LOG("PreUpdate");
 }
 
-void ola::Update()
+void FirstScript::Update()
 {
 	LOG("Update: First variable = %d", firstVariable);
 	if (App->input->GetKey(SDL_SCANCODE_A) == KeyState::KEY_REPEAT) 
@@ -43,14 +44,16 @@ void ola::Update()
 		pos.x -= 1;
 		transform->SetLocalPosition(pos);
 	}
+	if (object != nullptr)
+		LOG("Name %s", object->GetName());
 }
 
-void ola::PostUpdate()
+void FirstScript::PostUpdate()
 {
 	LOG("PostUpdate");
 }
 
-void ola::CleanUp()
+void FirstScript::CleanUp()
 {
 	LOG("CleanUp");
 }

@@ -8,7 +8,6 @@
 
 #include "EditorPanel.h"
 
-class Resource;
 class R_Texture;
 enum class ResourceType;
 
@@ -35,33 +34,32 @@ public:
 	bool Draw		(ImGuiIO& io) override;
 	bool CleanUp	() override;
 
-public:
-	const char*		GetDraggedAsset					() const;
-
 private:
 	void			CheckFlags						();
 	void			OnResize						();
 	void			GenerateDockspace				(ImGuiIO& io) const;										// 
 
 private:
-	void			DrawMenuBar						();															// 
-	void			DrawAssetsTree					();															// 
-	void			DrawFolderExplorer				();															// 
+	void			DrawMenuBar							();															// 
+	void			DrawAssetsTree						();															// 
+	void			DrawFolderExplorer					();															// 
 
-	void			DrawDirectoriesTree				(const char* rootNode, const char* extensionToFilter);
-	void			DrawDirectoriesTree				(const PathNode& rootNode);
+	void			DrawDirectoriesTree					(const char* rootNode, const char* extensionToFilter);
+	void			DrawDirectoriesTree					(const PathNode& rootNode);
 
-	void			DrawResourceIcons				();
+	void			DrawResourceIcons					();
 
 private:
-	void			DrawGoToPreviousDirectoryButton	();
-	void			AssetDragAndDropEvent			(const char* assetsPath, ImTextureID textureID);
+	void			DrawGoToPreviousDirectoryButton		();
+	void			AssetDragAndDropEvent				(const char* assetsPath, ImTextureID textureID);
 	
-	ImTextureID		GetIconTexID					(const AssetDisplay& assetDisplay) const;
-	uint			GetOGLTextureID					(R_Texture* assetTexture) const;
+	ImTextureID		GetIconTexID						(const AssetDisplay& assetDisplay) const;
+	uint			GetOGLTextureID						(R_Texture* assetTexture) const;
 
-	std::string		GetDisplayString				(std::string originalString, uint maxLenght) const;
-	void			ClearAssetsToDisplay			();
+	std::string		GetDisplayString					(std::string originalString, uint maxLenght) const;
+	void			ClearAssetsToDisplay				();
+
+	bool			DirectoryToDisplayIsRootDirectory	();
 
 private:																									// --- ENGINE DIRECTORIES VARS
 	PathNode				rootDirectory;
@@ -83,9 +81,6 @@ private:																									// --- ENGINE ICONS VARS
 	ImVec2					iconOffset;
 	ImVec2					textOffset;
 	ImVec2					winSize;
-
-	Resource*				draggedResource;
-	std::string				draggedAsset;
 };
 
 #endif // !__E_PROJECT_H__
