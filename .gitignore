@@ -359,7 +359,7 @@ NULL Engine/Intermediate/NULL Engine.vcxproj.FileListAbsolute.txt
 *.neshader
 *.nescript
 *.netex
-.neparticlesystem
+*.neparticlesystem
 *.recipe
 
 *EngineScripts.dll
