@@ -197,7 +197,6 @@ public:																											// --- RENDER GEOMETRY
 	void			RenderSkeletons				();
 	void			RenderUI					();
 	void			RenderParticles				();
-	void			RenderUIComponent			(GameObject* gameObject);
 
 	void			RenderFramebufferTexture	();
 	void			DeleteFromMeshRenderers		(C_Mesh* cMeshToDelete);
@@ -379,6 +378,7 @@ private:																										// --- DEBUG VARIABLES ---		// TODO: CREATE A 
 	std::vector<Module*>	PostSceneRenderModules;
 
 	std::map<float, ParticleRenderer> particles;												//map of the particles to render. It is ordered depending on the (float)distance to camera. Allows propper rendering
+	R_Shader* particleShader = nullptr;
 };
 
 #endif // !__M_RENDERER_3D_H__

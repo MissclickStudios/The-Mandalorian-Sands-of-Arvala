@@ -27,11 +27,6 @@ public:
 	std::string creditsImageName = "Credits";
 	std::string playerName = "Mandalorian";
 
-	std::string debugMenuCanvasName = "DebugMenuCanvas";
-	std::string hubShopCanvasName = "hubShopCanvas";
-	std::string hudCanvasName = "hubShopCanvas";
-	std::string pauseMenuCanvasName = "pauseMenuCanvas";
-
 	std::string creditsTextName = "CreditsText";
 	std::string beskarTextName = "BeskarText";
 	std::string ammoTextName = "AmmoText";
@@ -47,13 +42,14 @@ private:
 	C_2DAnimator* dashImage;
 	C_2DAnimator* creditsImage;
 
+	C_2DAnimator* heart1Image;
+	C_2DAnimator* heart2Image;
+	C_2DAnimator* heart3Image;
+
 	GameObject* playerObject;
 	Player* player;
 
-	C_Canvas* debugMenuCanvas = nullptr;
-	C_Canvas* hubShopCanvas = nullptr;
 	C_Canvas* hudCanvas = nullptr;
-	C_Canvas* pauseMenuCanvas = nullptr;
 
 	C_UI_Text* creditsText = nullptr;
 	C_UI_Text* beskarText = nullptr;
@@ -69,6 +65,14 @@ private:
 
 	bool hitAlready;
 
+	bool health1;
+	bool health2;
+	bool health3;
+	bool health4;
+	bool health5;
+	bool health6;
+
+
 	void ManageHeartImage(int hp);
 };
 
@@ -80,10 +84,6 @@ SCRIPTS_FUNCTION HUDManager* CreateHUDManager() {
 	INSPECTOR_STRING(script->dashImageName);
 	INSPECTOR_STRING(script->creditsImageName);
 	INSPECTOR_STRING(script->playerName);
-	INSPECTOR_STRING(script->debugMenuCanvasName);
-	INSPECTOR_STRING(script->hubShopCanvasName);
-	INSPECTOR_STRING(script->hudCanvasName);
-	INSPECTOR_STRING(script->pauseMenuCanvasName);
 
 	INSPECTOR_STRING(script->creditsTextName);
 	INSPECTOR_STRING(script->beskarTextName);

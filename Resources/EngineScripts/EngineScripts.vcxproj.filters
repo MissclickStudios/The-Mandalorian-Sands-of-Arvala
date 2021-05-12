@@ -34,6 +34,9 @@
     <Filter Include="Objects\Helpers">
       <UniqueIdentifier>{d4ef07aa-fbf4-4688-b038-6bc8239b8903}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Environment">
+      <UniqueIdentifier>{ce78a613-7a47-43df-b9b9-2aff5971c561}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scripts\Headers\ScriptMacros.h">
@@ -76,9 +79,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Assets\Scripts\HUBShopMenuManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Assets\Scripts\WinLoseMenuManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Assets\Scripts\CameraMovement.h">
@@ -129,6 +129,24 @@
     <ClInclude Include="..\Assets\Scripts\DebugMenuManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\Grogu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\DarkTrooper.h">
+      <Filter>Objects\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\Turret.h">
+      <Filter>Objects\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\ExplosiveBarrel.h">
+      <Filter>Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\SarlaacTrap.h">
+      <Filter>Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\WinLoseSceneManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scripts\Helpers\CrossDllHelper.cpp">
@@ -156,9 +174,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\Cpps\ShopMenuManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripts\Cpps\WinLoseMenuManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\Cpps\HUBShopMenuManager.cpp">
@@ -210,6 +225,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\Cpps\DebugMenuManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\Grogu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\DarkTrooper.cpp">
+      <Filter>Objects\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\Turret.cpp">
+      <Filter>Objects\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\ExplosiveBarrel.cpp">
+      <Filter>Objects\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\SarlaacTrap.cpp">
+      <Filter>Objects\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\WinLoseSceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

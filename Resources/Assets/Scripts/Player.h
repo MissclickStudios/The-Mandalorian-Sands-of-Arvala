@@ -11,6 +11,7 @@
 #include "MathGeoLib/include/Math/float2.h"
 
 class C_AudioSource;
+class C_2DAnimator;
 
 enum class PlayerState
 {
@@ -31,8 +32,11 @@ public:
 	virtual ~Player();
 
 	void SetUp() override;
-	void Update() override;
+	void Behavior() override;
 	void CleanUp() override;
+
+	void EntityPause() override;
+	void EntityResume() override;
 
 	void SaveState(ParsonNode& playerNode);
 	void LoadState(ParsonNode& playerNode);
@@ -52,11 +56,13 @@ public:
 
 	// Invencibility frames
 	float invencibilityDuration = 0.0f;
+	float intermitentMesh = 0.0f;
 
 	// Animations
 	AnimationInfo runAnimation = { "Run" };
 	AnimationInfo dashAnimation = { "Dash" };
-	AnimationInfo shootAnimation = { "Shoot", 0.05f };
+	AnimationInfo shootAnimation = { "Shoot"};
+	AnimationInfo shootRifleAnimation = { "ShootRifle"};
 	AnimationInfo reloadAnimation = { "Reload" };
 	AnimationInfo changeAnimation = { "Change" };
 	AnimationInfo onGuardAnimation = { "OnGuard" };
@@ -88,6 +94,20 @@ public:
 	C_AudioSource* deathAudio = nullptr;
 	
 
+	// HUD Animations Names
+	std::string mandoImageName = "Mando";
+	std::string secondaryWeaponImageName = "SecodaryWeapon";
+	std::string primaryWeaponImageName = "PrimaryWeapon";
+	std::string dashImageName = "Dash";
+	std::string creditsImageName = "Credits";
+
+	//HUD Animations
+	C_2DAnimator* mandoImage;
+	C_2DAnimator* secondaryWeaponImage;
+	C_2DAnimator* primaryWeaponImage;
+	C_2DAnimator* dashImage;
+	C_2DAnimator* creditsImage;
+
 private:
 
 	// Logic
@@ -116,12 +136,12 @@ private:
 	Timer dashTimer;
 	Timer dashCooldownTimer;
 
-	EmitterInstance* dashParticles = nullptr;
-
 	// Invencibility frames
 	Timer invencibilityTimer;
+	Timer intermitentMeshTimer;
 
 	// Weapons
+	bool usingEquipedGun = false;
 	Timer changeTimer;
 
 	GameObject* blasterGameObject = nullptr;

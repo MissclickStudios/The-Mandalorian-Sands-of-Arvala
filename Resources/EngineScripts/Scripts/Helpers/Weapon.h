@@ -49,10 +49,15 @@ public:
 	void Update() override;
 	void CleanUp() override;
 
+	void OnPause() override;
+	virtual void WeaponPause() {}
+	void OnResume() override;
+	virtual void WeaponResume() {}
+
 	// Usability
 	virtual ShootState Shoot(float2 direction);
 	virtual bool Reload();
-	void SetOwnership(EntityType type, GameObject* hand);
+	void SetOwnership(EntityType type, GameObject* hand, std::string handName = "");
 
 	// Bullet
 	void ProjectileCollisionReport(int index);
@@ -84,6 +89,10 @@ public:
 	int maxAmmo = 0;
 	int MaxAmmo() { return maxAmmo + maxAmmoModifier; }
 	int projectilesPerShot = 0;
+	float fireRateThreshold = 0.1f;
+
+	float shotSpreadArea;
+	void SpreadProjectiles(float2 direction);
 
 	// Reload
 	float reloadTime = 0.0f;
@@ -103,6 +112,7 @@ public:
 	std::vector<Effect> onHitEffects;
 
 	// Visuals
+	GameObject* GetHand(GameObject* object, std::string handName = "");
 	Prefab weaponModelPrefab;
 	Prefab projectilePrefab;
 

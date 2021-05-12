@@ -51,6 +51,10 @@ Trooper* CreateTrooper()
 	//Weapons
 	INSPECTOR_PREFAB(script->blaster);
 
+	//Hand Name
+
+	INSPECTOR_STRING(script->handName);
+
 	return script;
 }
 
@@ -106,7 +110,7 @@ void Trooper::SetUp()
 	}
 }
 
-void Trooper::Update()
+void Trooper::Behavior()
 {
 	ManageMovement();
 	if (moveState != TrooperState::DEAD)
@@ -119,6 +123,14 @@ void Trooper::CleanUp()
 		blasterGameObject->toDelete = true;
 	blasterGameObject = nullptr;
 	blasterWeapon = nullptr;
+}
+
+void Trooper::EntityPause()
+{
+}
+
+void Trooper::EntityResume()
+{
 }
 
 void Trooper::OnCollisionEnter(GameObject* object)
@@ -172,8 +184,8 @@ void Trooper::ManageMovement()
 	switch (moveState)
 	{
 	case TrooperState::IDLE:
-		if (rigidBody)
-			rigidBody->SetLinearVelocity(float3::zero);
+		if (rigidBody != nullptr)
+			rigidBody->Set2DVelocity(float2::zero);
 		if (aimState == AimState::SHOOT) // Prioritize shooting over moving
 			break;
 		if (distance > chaseDistance)
@@ -224,7 +236,7 @@ void Trooper::ManageMovement()
 			deathAudio->PlayFx(deathAudio->GetEventId());
 
 		currentAnimation = &deathAnimation;
-		if (rigidBody)
+		if (rigidBody != nullptr)
 			rigidBody->SetIsActive(false); // Disable the rigidbody to avoid more interactions with other entities
 		if (player)
 		{
@@ -298,20 +310,18 @@ void Trooper::ManageAim()
 
 void Trooper::Patrol()
 {
-	if (rigidBody)
+	if (rigidBody != nullptr)
 		rigidBody->SetLinearVelocity(float3::zero);
 }
 
 void Trooper::Chase()
 {
-	float3 direction = { moveDirection.x, 0.0f, moveDirection.y };
-	if (rigidBody)
-		rigidBody->SetLinearVelocity(direction * ChaseSpeed());
+	if (rigidBody != nullptr)
+		rigidBody->Set2DVelocity(moveDirection * ChaseSpeed());
 }
 
 void Trooper::Flee()
 {
-	float3 direction = { -moveDirection.x, 0.0f, -moveDirection.y };
-	if (rigidBody)
-		rigidBody->SetLinearVelocity(direction * ChaseSpeed());
+	if (rigidBody != nullptr)
+		rigidBody->Set2DVelocity(-moveDirection * ChaseSpeed());
 }

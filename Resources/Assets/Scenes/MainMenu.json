@@ -45,10 +45,7 @@
                         "X": 0,
                         "Y": 0,
                         "W": 1.0926049947738647,
-                        "H": 0.5787392258644104,
-                        "IsInvisible": false,
-                        "IsInputCanvas": true,
-                        "Priority": 1
+                        "H": 0.5787392258644104
                     }
                 }
             ]
@@ -86,21 +83,19 @@
                 },
                 {
                     "Type": 23,
-                    "Button": {
-                        "X": 0,
-                        "Y": -0.075000002980232239,
-                        "W": 0.31999999284744263,
-                        "H": 0.079999998211860657,
-                        "IsHovered": false
-                    }
+                    "X": 0,
+                    "Y": -0.27500000596046448,
+                    "W": 0.13500000536441803,
+                    "H": 0.039999999105930328,
+                    "childOrder": 3
                 },
                 {
                     "Type": 3,
                     "Texture": {
-                        "AssetsPath": "Assets\/Textures\/\/UI\/MainMenu\/ContinueButton1.png",
-                        "AssetsName": "ContinueButton1.png",
-                        "LibaryPath": "Library\/Textures\/1043491886.netex",
-                        "LibraryFile": "1043491886.netex"
+                        "AssetsPath": "Assets\/Textures\/\/UI\/MainMenu\/ContinueButton.png",
+                        "AssetsName": "ContinueButton.png",
+                        "LibaryPath": "Library\/Textures\/2099123318.netex",
+                        "LibraryFile": "2099123318.netex"
                     },
                     "Shader": {
                         "AssetsPath": "Assets\/Shaders\/UIShader.shader",
@@ -121,7 +116,7 @@
             "IsStatic": false,
             "IsSceneRoot": false,
             "MaintainThroughScenes": false,
-            "ShowBoundingBoxes": false,
+            "ShowBoundingBoxes": true,
             "Components": [
                 {
                     "Type": 1,
@@ -165,21 +160,67 @@
                             "string": "PlayerSpawn"
                         },
                         {
+                            "Type": 5,
+                            "Name": "loseSceneName",
+                            "string": "Assets\/Scenes\/LoseScene.json"
+                        },
+                        {
+                            "Type": 0,
+                            "Name": "l1Easy",
+                            "int": 1
+                        },
+                        {
+                            "Type": 0,
+                            "Name": "l1Intermediate",
+                            "int": 4
+                        },
+                        {
                             "Type": 7,
                             "Name": "level1",
                             "vectorstring": [
                                 "Level1_Room1.json",
                                 "Level1_Room2.json",
                                 "Level1_Room3.json",
+                                "Level1_Room4.json",
+                                "Level1_Room5.json",
                                 "Level1_Room6.json",
+                                "Level1_Room7.json",
                                 "Level1_Room8.json",
                                 "Level1_Room9.json"
+                            ]
+                        },
+                        {
+                            "Type": 0,
+                            "Name": "RuinsEasy",
+                            "int": 1
+                        },
+                        {
+                            "Type": 0,
+                            "Name": "RuinsIntermediate",
+                            "int": 4
+                        },
+                        {
+                            "Type": 7,
+                            "Name": "level1Ruins",
+                            "vectorstring": [
+                                "Level1_Ruins1.json",
+                                "Level1_Ruins2.json",
+                                "Level1_Ruins3.json",
+                                "Level1_Ruins4.json",
+                                "Level1_Ruins5.json",
+                                "Level1_Ruins6.json",
+                                "Level1_Ruins7.json"
                             ]
                         },
                         {
                             "Type": 4,
                             "Name": "playerPrefab",
                             "prefab": 1997884416
+                        },
+                        {
+                            "Type": 4,
+                            "Name": "groguPrefab",
+                            "prefab": 13642032
                         }
                     ]
                 }
@@ -223,7 +264,7 @@
             "ParentUID": 520337368,
             "PrefabID": 0,
             "IsPrefab": false,
-            "Name": "UI Button",
+            "Name": "Settings",
             "IsActive": true,
             "IsStatic": false,
             "IsSceneRoot": false,
@@ -251,21 +292,19 @@
                 },
                 {
                     "Type": 23,
-                    "Button": {
-                        "X": 0,
-                        "Y": -0.21500000357627869,
-                        "W": 0.31999999284744263,
-                        "H": 0.079999998211860657,
-                        "IsHovered": false
-                    }
+                    "X": 0,
+                    "Y": -0.44999998807907104,
+                    "W": 0.14000000059604645,
+                    "H": 0.045000001788139343,
+                    "childOrder": 4
                 },
                 {
                     "Type": 3,
                     "Texture": {
-                        "AssetsPath": "Assets\/Textures\/\/UI\/MainMenu\/SettingsButton1.png",
-                        "AssetsName": "SettingsButton1.png",
-                        "LibaryPath": "Library\/Textures\/1773975367.netex",
-                        "LibraryFile": "1773975367.netex"
+                        "AssetsPath": "Assets\/Textures\/\/UI\/MainMenu\/SettingsButton.png",
+                        "AssetsName": "SettingsButton.png",
+                        "LibaryPath": "Library\/Textures\/1513649198.netex",
+                        "LibraryFile": "1513649198.netex"
                     },
                     "Shader": {
                         "AssetsPath": "Assets\/Shaders\/UIShader.shader",
@@ -309,21 +348,19 @@
                 },
                 {
                     "Type": 23,
-                    "Button": {
-                        "X": 0,
-                        "Y": -0.36000001430511475,
-                        "W": 0.31999999284744263,
-                        "H": 0.079999998211860657,
-                        "IsHovered": true
-                    }
+                    "X": 0,
+                    "Y": -0.62000000476837158,
+                    "W": 0.15999999642372131,
+                    "H": 0.05000000074505806,
+                    "childOrder": 5
                 },
                 {
                     "Type": 3,
                     "Texture": {
-                        "AssetsPath": "Assets\/Textures\/\/UI\/MainMenu\/ExitButton1.png",
-                        "AssetsName": "ExitButton1.png",
-                        "LibaryPath": "Library\/Textures\/1724300843.netex",
-                        "LibraryFile": "1724300843.netex"
+                        "AssetsPath": "Assets\/Textures\/\/UI\/MainMenu\/ExitButton.png",
+                        "AssetsName": "ExitButton.png",
+                        "LibaryPath": "Library\/Textures\/359893187.netex",
+                        "LibraryFile": "359893187.netex"
                     },
                     "Shader": {
                         "AssetsPath": "Assets\/Shaders\/UIShader.shader",
@@ -344,7 +381,7 @@
             "IsStatic": false,
             "IsSceneRoot": false,
             "MaintainThroughScenes": false,
-            "ShowBoundingBoxes": false,
+            "ShowBoundingBoxes": true,
             "Components": [
                 {
                     "Type": 1,
@@ -396,6 +433,12 @@
                         "Path": "Library\/Materials\/2013694742.nemat",
                         "File": "2013694742.nemat"
                     },
+                    "Texture": {
+                        "AssetsPath": "Assets\/Textures\/iobamium.PNG",
+                        "AssetsName": "iobamium.PNG",
+                        "LibaryPath": "Library\/Textures\/45294972.netex",
+                        "LibraryFile": "45294972.netex"
+                    },
                     "Shader": {
                         "AssetsPath": "Assets\/Shaders\/DefaultShader.shader",
                         "AssetsName": "DefaultShader.shader",
@@ -438,21 +481,19 @@
                 },
                 {
                     "Type": 23,
-                    "Button": {
-                        "X": 0,
-                        "Y": 0.070000000298023224,
-                        "W": 0.31999999284744263,
-                        "H": 0.079999998211860657,
-                        "IsHovered": false
-                    }
+                    "X": 0,
+                    "Y": -0.10499999672174454,
+                    "W": 0.11999999731779099,
+                    "H": 0.045000001788139343,
+                    "childOrder": 2
                 },
                 {
                     "Type": 3,
                     "Texture": {
-                        "AssetsPath": "Assets\/Textures\/\/UI\/MainMenu\/NewGameButton1.png",
-                        "AssetsName": "NewGameButton1.png",
-                        "LibaryPath": "Library\/Textures\/1065639556.netex",
-                        "LibraryFile": "1065639556.netex"
+                        "AssetsPath": "Assets\/Textures\/\/UI\/MainMenu\/NewGameButton.png",
+                        "AssetsName": "NewGameButton.png",
+                        "LibaryPath": "Library\/Textures\/1431862578.netex",
+                        "LibraryFile": "1431862578.netex"
                     },
                     "Shader": {
                         "AssetsPath": "Assets\/Shaders\/UIShader.shader",
@@ -520,6 +561,11 @@
                             "Type": 6,
                             "Name": "gameManager",
                             "gameobject": 764877460
+                        },
+                        {
+                            "Type": 6,
+                            "Name": "canvasObject",
+                            "gameobject": 520337368
                         }
                     ]
                 }
@@ -527,7 +573,7 @@
         },
         {
             "UID": 1474137658,
-            "ParentUID": 458913441,
+            "ParentUID": 1920502582,
             "PrefabID": 0,
             "IsPrefab": false,
             "Name": "MainScene",
@@ -563,7 +609,7 @@
             "ParentUID": 520337368,
             "PrefabID": 0,
             "IsPrefab": false,
-            "Name": "UI Image",
+            "Name": "SandsImage",
             "IsActive": true,
             "IsStatic": false,
             "IsSceneRoot": false,
@@ -591,23 +637,14 @@
                 },
                 {
                     "Type": 21,
-                    "Image": {
-                        "X": 0,
-                        "Y": 0.27500000596046448,
-                        "W": 0.74000000953674316,
-                        "H": 0.4699999988079071,
-                        "IsHDL": false,
-                        "IsHDR": false
-                    }
+                    "X": 0,
+                    "Y": 0.05000000074505806,
+                    "W": 0.83499997854232788,
+                    "H": 0.83499997854232788,
+                    "childOrder": 1
                 },
                 {
                     "Type": 3,
-                    "Texture": {
-                        "AssetsPath": "Assets\/Textures\/\/2DAnimations\/Title\/Title01.png",
-                        "AssetsName": "Title01.png",
-                        "LibaryPath": "Library\/Textures\/1509968588.netex",
-                        "LibraryFile": "1509968588.netex"
-                    },
                     "Shader": {
                         "AssetsPath": "Assets\/Shaders\/UIShader.shader",
                         "AssetsName": "UIShader.shader",
@@ -617,10 +654,10 @@
                 },
                 {
                     "Type": 25,
-                    "Animation Step Time": 30,
+                    "Animation Step Time": 70,
                     "Animation Loop": true,
                     "Animation Set On Loop From Start": true,
-                    "Name": "Title",
+                    "Name": "TitleArvala",
                     "Name1": "[NOT FOUND]",
                     "Name2": "[NOT FOUND]"
                 }
@@ -631,12 +668,12 @@
             "ParentUID": 520337368,
             "PrefabID": 0,
             "IsPrefab": false,
-            "Name": "UI Image",
+            "Name": "TitleMandalorian",
             "IsActive": true,
             "IsStatic": false,
             "IsSceneRoot": false,
             "MaintainThroughScenes": false,
-            "ShowBoundingBoxes": false,
+            "ShowBoundingBoxes": true,
             "Components": [
                 {
                     "Type": 1,
@@ -659,14 +696,11 @@
                 },
                 {
                     "Type": 21,
-                    "Image": {
-                        "X": 0,
-                        "Y": 0.079999998211860657,
-                        "W": 0.98500001430511475,
-                        "H": 1.1000000238418579,
-                        "IsHDL": false,
-                        "IsHDR": false
-                    }
+                    "X": 0,
+                    "Y": 0.76499998569488525,
+                    "W": 0.20000000298023224,
+                    "H": 0.125,
+                    "childOrder": 0
                 },
                 {
                     "Type": 3,
@@ -726,5 +760,9 @@
                 }
             ]
         }
-    ]
+    ],
+    "NavMesh": {
+        "UID": 0,
+        "Assets Path": "[NONE]"
+    }
 } 

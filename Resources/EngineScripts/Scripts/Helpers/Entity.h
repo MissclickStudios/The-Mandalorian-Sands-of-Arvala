@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 #define DEFAULT_MODIFIER 1.0f
 
@@ -15,17 +16,27 @@ class C_RigidBody;
 class C_Animator;
 class C_Material;
 class C_AudioSource;
+class C_Mesh;
 
 class C_ParticleSystem;
-class EmitterInstance;
 
-enum class EntityType
+enum class EntityType // jeje titties
 {
 	ENTITY,
 	PLAYER,
 	BLURRG,
 	TROOPER,
-	IG11
+	DARK_TROOPER,
+	IG11,
+	IG12,
+	TURRET,
+	GROGU
+};
+
+enum class EntityState
+{
+	NONE,
+	STUNED
 };
 
 class Entity : public Object
@@ -40,30 +51,41 @@ public:
 	virtual void SetUp() = 0;
 	
 	void PreUpdate();
-	virtual void Update() = 0;
+	void Update();
+	virtual void Behavior() = 0;
 	void PostUpdate();
-	
+
 	virtual void CleanUp() = 0;
 
+	void OnPause() override;
+	virtual void EntityPause() {}
+	void OnResume() override;
+	virtual void EntityResume() {}
+
 	virtual void OnCollisionEnter(GameObject* object) override;
-	
+
 	// Interactions
 	virtual void TakeDamage(float damage);
 	virtual void GiveHeal(float amount);
-	Effect* AddEffect(EffectType type, float duration, bool permanent = false);
-	
+	Effect* AddEffect(EffectType type, float duration, bool permanent = false, void* data = nullptr);
+	virtual void ChangePosition(float3 position);
+	bool IsGrounded();
+
 	// Effect Functions
 	virtual void Frozen();
 	virtual void Heal(Effect* effect);
+
+	virtual void Stun(Effect* effect);
+	virtual void KnockBack(Effect* effect);
 	
 	// Type
 	EntityType type = EntityType::ENTITY;
-	
+
 	// Health
 	float health = 1.0f;
 	float maxHealth = 1.0f;
 	float MaxHealth() { return maxHealth + maxHealthModifier; }
-	
+
 	// Basic Stats
 	float speed = 0.0f;
 	const float Speed() const { return speed * speedModifier; }
@@ -73,7 +95,7 @@ public:
 	const float Damage() const { return damage * damageModifier; }
 	float defense = 1.0f;
 	const float Defense() const { return defense * defenseModifier; }
-	
+
 	// Modifiers
 	float maxHealthModifier = 0.0f;
 	float speedModifier = DEFAULT_MODIFIER;
@@ -91,6 +113,7 @@ public:
 
 	AnimationInfo idleAnimation = { "Idle" };
 	AnimationInfo deathAnimation = { "Death" };
+	AnimationInfo stunAnimation = { "Stun" };
 
 	Timer hitTimer;	
 
@@ -98,19 +121,24 @@ public:
 	C_AudioSource* walkAudio = nullptr;
 	C_AudioSource* damageAudio = nullptr;
 
+	std::string handName;
+	// Particles
+	std::vector<std::string> particleNames;
+
 protected:
+
+	// Particles
+	C_ParticleSystem* GetParticles(std::string particleName);
 
 	// Movement
 	C_RigidBody* rigidBody = nullptr;
 
+	// Mesh
+	C_Mesh* mesh = nullptr;
+
 	// Animations
 	C_Animator* animator = nullptr;
 	AnimationInfo* currentAnimation = nullptr;
-
-	// Particles
-	C_ParticleSystem* particles = nullptr;
-	
-	EmitterInstance* hitParticles = nullptr;
 
 	//Material
 	C_Material* material = nullptr;
@@ -124,4 +152,11 @@ protected:
 
 	// Audio
 	Timer stepTimer;
+
+private:
+
+	EntityState entityState = EntityState::NONE;
+
+	// Particles
+	std::unordered_map<std::string, C_ParticleSystem*> particles;
 };
