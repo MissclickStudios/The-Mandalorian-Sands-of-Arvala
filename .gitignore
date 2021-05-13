@@ -364,5 +364,5 @@ NULL Engine/Intermediate/NULL Engine.vcxproj.FileListAbsolute.txt
 
 *EngineScripts.dll
 !*EngineCore.lib
-*configuration.JSON
+# *configuration.JSON
 PlayAutosave.json
