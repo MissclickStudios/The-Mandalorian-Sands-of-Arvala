@@ -11,6 +11,7 @@
 #include "Player.h"
 
 #include "MC_Time.h"
+#include "Random.h"
 
 IG11* CreateIG11()
 {
@@ -118,7 +119,10 @@ void IG11::SetUp()
 	if (blasterGameObject)
 		blasterWeapon = (Weapon*)GetObjectScript(blasterGameObject, ObjectType::WEAPON);
 	if (blasterWeapon)
+	{
 		blasterWeapon->SetOwnership(type, handLeft, leftHandName);
+		baseFireRate = blasterWeapon->fireRate;
+	}
 
 	if (sniper.uid != NULL)
 		sniperGameObject = App->resourceManager->LoadPrefab(sniper.uid, App->scene->GetSceneRoot());
@@ -210,16 +214,6 @@ void IG11::ManageMovement()
 		}
 	}
 
-	if (spiralAttackTimer.IsActive() && spiralAttackTimer.ReadSec() >= spiralAttackCooldown)
-	{
-		spiralAttackTimer.Stop();
-	}
-	else if (UAttackTimer.IsActive() && UAttackTimer.ReadSec() >= UAttackCooldown)
-	{
-		UAttackTimer.Stop();
-		UAttackShots += 15;
-	}
-
 	switch (moveState)
 	{
 	case IG11State::IDLE:
@@ -242,18 +236,10 @@ void IG11::ManageMovement()
 			moveState = IG11State::FLEE;
 			break;
 		}
-		if (health <= 5.0f && !spiralAttackTimer.IsActive())
-		{
-			spiralAttackTimer.Start();
-			moveState = IG11State::SPIRAL_ATTACK_IN;
-			break;
-		}
-		else if (health < 8.0f  && health > 5.0f && UAttackShots > 0)
-		{
-			UAttackTimer.Start();
-			moveState = IG11State::U_ATTACK_IN;
-			break;
-		}
+
+		if (health > 5.0f) moveState = FirstStageAttacks();
+
+		else if (health <= 5.0f) moveState = SecondStageAttacks();
 
 		break;
 	case IG11State::PATROL:
@@ -296,13 +282,13 @@ void IG11::ManageMovement()
 
 			if (blasterWeapon)
 			{
-				blasterWeapon->fireRate = 0.3f;
+				blasterWeapon->fireRate = baseFireRate;
 				blasterWeapon->ammo = 0;
 				blasterWeapon->projectilesPerShot = 1;
 			}
 			if (sniperWeapon)
 			{
-				sniperWeapon->fireRate = 0.3f;
+				sniperWeapon->fireRate = baseFireRate;
 				sniperWeapon->ammo = 0;
 				sniperWeapon->projectilesPerShot = 1;
 			}
@@ -321,13 +307,63 @@ void IG11::ManageMovement()
 
 			if (blasterWeapon)
 			{
-				blasterWeapon->fireRate = 0.3f;
+				blasterWeapon->fireRate = baseFireRate;
 				blasterWeapon->ammo = 0;
 				blasterWeapon->projectilesPerShot = 1;
 			}
 			if (sniperWeapon)
 			{
-				sniperWeapon->fireRate = 0.3f;
+				sniperWeapon->fireRate = baseFireRate;
+				sniperWeapon->ammo = 0;
+				sniperWeapon->projectilesPerShot = 1;
+			}
+		}
+		break;
+	case IG11State::ROTATE_ATTACK_IN:
+		specialAttackStartAim = aimDirection;
+		specialAttackRot = 0.0f;
+
+		moveState = IG11State::ROTATE_ATTACK;
+
+	case IG11State::ROTATE_ATTACK:
+		if (!RotateAttack())
+		{
+			moveState = IG11State::IDLE;
+
+			if (blasterWeapon)
+			{
+				blasterWeapon->fireRate = baseFireRate;
+				blasterWeapon->ammo = 0;
+				blasterWeapon->projectilesPerShot = 1;
+			}
+			if (sniperWeapon)
+			{
+				sniperWeapon->fireRate = baseFireRate;
+				sniperWeapon->ammo = 0;
+				sniperWeapon->projectilesPerShot = 1;
+			}
+		}
+		break;
+	case IG11State::DOUBLE_SPIRAL_ATTACK_IN:
+		specialAttackStartAim = aimDirection;
+		specialAttackRot = 0.0f;
+
+		moveState = IG11State::DOUBLE_SPIRAL_ATTACK;
+
+	case IG11State::DOUBLE_SPIRAL_ATTACK:
+		if (!DoubleSpiralAttack())
+		{
+			moveState = IG11State::IDLE;
+
+			if (blasterWeapon)
+			{
+				blasterWeapon->fireRate = baseFireRate;
+				blasterWeapon->ammo = 0;
+				blasterWeapon->projectilesPerShot = 1;
+			}
+			if (sniperWeapon)
+			{
+				sniperWeapon->fireRate = baseFireRate;
 				sniperWeapon->ammo = 0;
 				sniperWeapon->projectilesPerShot = 1;
 			}
@@ -363,7 +399,7 @@ void IG11::ManageAim()
 	case AimState::SHOOT:
 		currentAnimation = &shootAnimation; // temporary till torso gets an independent animator
 
-		if (moveState != IG11State::SPIRAL_ATTACK)
+		if (moveState != IG11State::DOUBLE_SPIRAL_ATTACK && moveState != IG11State::ROTATE_ATTACK)
 			secondaryAimDirection = aimDirection;
 		if (moveState == IG11State::U_ATTACK)
 			UAttackShots--;
@@ -426,7 +462,91 @@ void IG11::ManageAim()
 		break;
 	}
 
-	if(moveState == IG11State::SPIRAL_ATTACK) currentAnimation = &specialAnimation;
+	if(moveState == IG11State::SPIRAL_ATTACK ||
+		moveState == IG11State::ROTATE_ATTACK||
+		moveState == IG11State::DOUBLE_SPIRAL_ATTACK) currentAnimation = &specialAnimation;
+}
+
+IG11State IG11::FirstStageAttacks()
+{
+	if (randomAttack == 0) 
+		randomAttack = Random::LCG::GetBoundedRandomUint(0,2);
+   	
+	if(randomAttack == 1)
+	{
+		if (!spiralAttackTimer.IsActive())
+		{
+			spiralAttackTimer.Start();
+			return IG11State::SPIRAL_ATTACK_IN;
+		}
+		else if (spiralAttackTimer.ReadSec() >= spiralAttackCooldown)
+		{
+			spiralAttackTimer.Stop();
+			randomAttack = Random::LCG::GetBoundedRandomUint(0, 2);
+			return IG11State::IDLE;
+		}
+
+	}
+	else if (randomAttack == 2)
+	{
+		if (!UAttackTimer.IsActive())
+		{
+			UAttackTimer.Start();
+			return IG11State::U_ATTACK_IN;
+		}
+		else if (UAttackTimer.ReadSec() >= UAttackCooldown)
+		{
+			UAttackTimer.Stop();
+			UAttackShots += 15;
+			randomAttack = Random::LCG::GetBoundedRandomUint(0, 2);
+			return IG11State::IDLE;
+		}
+	}
+	else
+	{
+		return IG11State::IDLE;
+	}
+
+}
+
+IG11State IG11::SecondStageAttacks()
+{
+	if (randomAttack == 0)
+		randomAttack = Random::LCG::GetBoundedRandomUint(0, 2);
+
+	if (randomAttack == 1)
+	{
+		if (!spiralAttackTimer.IsActive())
+		{
+			spiralAttackTimer.Start();
+			return IG11State::DOUBLE_SPIRAL_ATTACK_IN;
+		}
+		else if (spiralAttackTimer.ReadSec() >= spiralAttackCooldown)
+		{
+			spiralAttackTimer.Stop();
+			randomAttack = Random::LCG::GetBoundedRandomUint(0, 2);
+			return IG11State::IDLE;
+		}
+
+	}
+	else if (randomAttack == 2)
+	{
+		if (!spiralAttackTimer.IsActive())
+		{
+			spiralAttackTimer.Start();
+			return IG11State::ROTATE_ATTACK_IN;
+		}
+		else if (spiralAttackTimer.ReadSec() >= spiralAttackCooldown)
+		{
+			spiralAttackTimer.Stop();
+			randomAttack = Random::LCG::GetBoundedRandomUint(0, 2);
+			return IG11State::IDLE;
+		}
+	}
+	else
+	{
+		return IG11State::IDLE;
+	}
 }
 
 void IG11::Patrol()
@@ -459,23 +579,19 @@ bool IG11::SpiralAttack()
 
 	if (blasterWeapon)
 	{
-		blasterWeapon->fireRate = 0.0001f * MC_Time::Game::GetDT();
+		blasterWeapon->fireRate = 0.05f;
 		blasterWeapon->ammo = 20;
 		blasterWeapon->projectilesPerShot = 3;
 		blasterWeapon->shotSpreadArea = 5;
 	}
 	if (sniperWeapon)
 	{
-		sniperWeapon->fireRate = 0.01f * MC_Time::Game::GetDT();
-		sniperWeapon->ammo = 20;
-		sniperWeapon->projectilesPerShot = 3;
-		sniperWeapon->shotSpreadArea = 5;
-		secondaryAimDirection = -aimDirection;
+		sniperWeapon->projectilesPerShot = 0;
 	}
 
 	if (specialAttackRot >= 360.0f * spiralAttackSpins)
 		return false;
-	
+
 	return true;
 }
 
@@ -495,6 +611,71 @@ bool IG11::UAttack()
 	if (UAttackShots <= 0)
 		return false;
 
+
+	return true;
+}
+
+bool IG11::DoubleSpiralAttack()
+{
+	specialAttackRot += spiralAttackSpeed * MC_Time::Game::GetDT();
+	float angle = specialAttackStartAim.AimedAngle();
+	angle += DegToRad(specialAttackRot);
+
+	float x = cos(angle);
+	float y = sin(angle);
+	aimDirection = { x,y };
+
+	if (blasterWeapon)
+	{
+		blasterWeapon->fireRate = 0.05f;
+		blasterWeapon->ammo = 20;
+		blasterWeapon->projectilesPerShot = 3;
+		blasterWeapon->shotSpreadArea = 5;
+	}
+	if (sniperWeapon)
+	{
+		sniperWeapon->fireRate = 0.05f;
+		sniperWeapon->ammo = 20;
+		sniperWeapon->projectilesPerShot = 3;
+		sniperWeapon->shotSpreadArea = 5;
+		secondaryAimDirection = -aimDirection;
+	}
+
+	if (specialAttackRot >= 360.0f * spiralAttackSpins)
+		return false;
+
+	return true;
+}
+
+bool IG11::RotateAttack()
+{
+	specialAttackRot += spiralAttackSpeed * MC_Time::Game::GetDT();
+	float angle = specialAttackStartAim.AimedAngle();
+	angle += DegToRad(specialAttackRot);
+
+	float x = cos(angle);
+	float y = sin(angle);
+	aimDirection = { x,y };
+
+	if (blasterWeapon)
+	{
+		blasterWeapon->fireRate = 0.08f;
+		blasterWeapon->projectilesPerShot = 10;
+		blasterWeapon->ammo = 50;
+		blasterWeapon->shotSpreadArea = 40;
+	}
+
+	if (sniperWeapon)
+	{
+		//sniperWeapon->fireRate = 0.3f;
+		sniperWeapon->projectilesPerShot = 0;
+		//sniperWeapon->ammo = 20;
+		//sniperWeapon->shotSpreadArea = 10;
+		//secondaryAimDirection = -aimDirection;
+	}
+
+	if (specialAttackRot >= 360.0f * spiralAttackSpins)
+		return false;
 
 	return true;
 }

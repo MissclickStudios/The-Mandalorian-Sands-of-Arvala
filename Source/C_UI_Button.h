@@ -1,17 +1,10 @@
 #ifndef __C_UI_BUTTON_H__
 #define __C_UI_BUTTON_H__
 
-#include <string>
 #include "C_Ui.h"
+#include "Color.h"
 
 class R_Shader;
-
-const float coordsBuffer[] = {
-1, 1,
-1, 0,
-0, 0,
-1,0,
-};
 
 enum class UIButtonState
 {
@@ -55,8 +48,13 @@ private:
 
 	uint VAO;
 	uint VBO;
+	Color idle = { 0.97f, 0.76f, 0.58f, 1.0f };
+	Color hovered = { 1.0f, 1.0f, 1.0f, 1.0f };
+	Color pressed = { 1.0f, 0.4f, 0.19f, 1.0f };
 
 	R_Shader* rShader;
+
+	friend class E_Inspector;
 };
 
 #endif // !__C_UI_BUTTON_H__

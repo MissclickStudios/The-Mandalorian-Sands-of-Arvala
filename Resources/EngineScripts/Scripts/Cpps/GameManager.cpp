@@ -22,12 +22,19 @@
 #include "Player.h"
 #include "Gate.h"
 
+#include "Items.h"
+
 GameManager::GameManager(): Script()
 {
 }
 
 GameManager::~GameManager()
 {
+	while (chestItemPool.size())
+	{
+		delete * chestItemPool.begin();
+		chestItemPool.erase(chestItemPool.begin());
+	}
 }
 
 void GameManager::Awake()
@@ -84,6 +91,38 @@ void GameManager::Awake()
 			backtrackTimer.Start();
 			if (backtrack.size() != 0)
 				backtrack.clear();
+
+			// Clear the vector if it has data
+			while (chestItemPool.size())
+			{
+				delete* chestItemPool.begin();
+				chestItemPool.erase(chestItemPool.begin());
+			}
+			//Load Json state
+			char* itemBuffer = nullptr;
+			App->fileSystem->Load("ChestItemPool.json", &itemBuffer);
+			ParsonNode itemFile(itemBuffer);
+			//release Json File
+			CoreCrossDllHelpers::CoreReleaseBuffer(&itemBuffer);
+			ParsonArray itemArray = itemFile.GetArray("Items");
+			for (uint i = 0; i < itemArray.size; ++i)
+			{
+				ParsonNode itemNode = itemArray.GetNode(i);
+				if (!itemNode.NodeIsValid())
+					break;
+
+				std::string name = itemNode.GetString("Name");
+				std::string description = itemNode.GetString("Description");
+				int price = itemNode.GetInteger("Price");
+				ItemRarity rarity = (ItemRarity)itemNode.GetInteger("Rarity");
+				int min = itemNode.GetInteger("Min");
+				int max = itemNode.GetInteger("Max");
+				float power = itemNode.GetNumber("Power");
+				float duration = itemNode.GetInteger("Duration");
+				float chance = itemNode.GetInteger("Chance");
+				std::string texturePath = itemNode.GetString("Texture Path");
+				chestItemPool.emplace_back(new ItemData(name, description, price, rarity, power, duration, chance, min, max, texturePath));
+			}
 		}
 	}
 
@@ -93,7 +132,6 @@ void GameManager::Awake()
 	{
 		gate = (Gate*)tmp->GetScript("Gate");
 	}
-
 }
 
 void GameManager::Start()
@@ -638,46 +676,49 @@ void GameManager::SaveManagerState()
 
 void GameManager::BackTrackUpdate()
 {
-	if (backtrackTimer.ReadSec() >= backtrackDuration)
+	if (playerScript != nullptr)
 	{
-		if (playerScript != nullptr && playerScript->moveState != PlayerState::DASH && playerScript->IsGrounded())
+		if (backtrackTimer.ReadSec() >= backtrackDuration)
 		{
-			if (backtrack.size() >= BACKTRACK)
-				backtrack.erase(backtrack.begin());
-			backtrack.push_back(playerScript->gameObject->transform->GetLocalPosition());
-		}
+			if (playerScript != nullptr && playerScript->moveState != PlayerState::DASH && playerScript->IsGrounded())
+			{
+				if (backtrack.size() >= BACKTRACK)
+					backtrack.erase(backtrack.begin());
+				backtrack.push_back(playerScript->gameObject->transform->GetLocalPosition());
+			}
 
-		backtrackTimer.Start();
-	}
-	if (move)
-	{
-		move = false;
-		float3 point = spawnPoint;
-		for (int i = backtrack.size() - 1; i >= 0; --i)
+			backtrackTimer.Start();
+		}
+		if (move)
 		{
-			if (i == 0)
+			move = false;
+			float3 point = spawnPoint;
+			for (int i = backtrack.size() - 1; i >= 0; --i)
+			{
+				if (i == 0)
+					break;
+
+				float current = backtrack[i].y * 1000;
+				int currentRounded = (int)(backtrack[i].y * 1000);
+				if (current >= (float)currentRounded)
+					current = (float)currentRounded;
+				else
+					current = (float)(currentRounded - 1);
+
+				float past = backtrack[i - 1].y * 1000;
+				int pastRounded = (int)(backtrack[i - 1].y * 1000);
+				if (past >= (float)pastRounded)
+					past = (float)pastRounded;
+				else
+					past = (float)(pastRounded - 1);
+
+				if (current != past)
+					continue;
+				point = backtrack[i];
 				break;
-
-			float current = backtrack[i].y * 1000;
-			int currentRounded = (int)(backtrack[i].y * 1000);
-			if (current >= (float)currentRounded)
-				current = (float)currentRounded;
-			else
-				current = (float)(currentRounded - 1);
-
-			float past = backtrack[i - 1].y * 1000;
-			int pastRounded = (int)(backtrack[i - 1].y * 1000);
-			if (past >= (float)pastRounded)
-				past = (float)pastRounded;
-			else
-				past = (float)(pastRounded - 1);
-
-			if (current != past)
-				continue;
-			point = backtrack[i];
-			break;
+			}
+			playerScript->ChangePosition(point);
 		}
-		playerScript->ChangePosition(point);
 	}
 }
 
