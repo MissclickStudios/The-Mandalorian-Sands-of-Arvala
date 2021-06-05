@@ -3798,3 +3798,10 @@ input, select, textarea {
 			color: black;
 		  }
 		  
+		  /*FIXED BUTTON */
+		  .fixedbutton {
+			position: fixed;
+			bottom: px;
+			right: 0px; 
+			background-color: rgb(39, 23, 182);
+		}
