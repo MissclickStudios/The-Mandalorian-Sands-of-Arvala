@@ -110,7 +110,7 @@ input, select, textarea {
 /* Type */
 
 	body {
-		background-color: #c94b1d;
+		background-color: #d14d1d;
 		color: rgba(126, 77, 77, 0.65);
 	}
 
@@ -3829,12 +3829,7 @@ input, select, textarea {
 		  * {
 			box-sizing: border-box;
 		  }
-		  
-		  /* Set a background color */
-		  body {
-			background-color: #474e5d;
-			font-family: Helvetica, sans-serif;
-		  }
+		
 		  
 		  /* The actual timeline (the vertical ruler) */
 		  .timeline {

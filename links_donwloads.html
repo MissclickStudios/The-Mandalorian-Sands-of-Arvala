@@ -3,18 +3,19 @@
 <html>
 
 	<div class="navbar">
-		<a class="active" href="#home">Home</a>
-		<a href="#missclickstudios">Missclick Studios</a>
-		<a href="#development">Development</a>
-		<a href="#missclickengine">Missclick Engine</a>
+		<a class="active" href="index.html">Home</a>
+		<a href="missclick_studios.html">Missclick Studios</a>
+		<a href="development.html">Development</a>
+		<a href="missclick_engine.html">Missclick Engine</a>
 		<div class="fixedbutton">
-			<a href="#download">				
-			<div class="glow">
+			<a href="#download">						
+				<div class="glow">
 				Download
-			</div></a>
+				</div>
+			</a>
 		</div>
-		<a href="#links">Links</a>
-	  </div> 
+		<a href="links_donwloads.html">Links</a>
+	</div> 
 
 	<head>
 		<title>The Mandalorian Sands of Arvala</title>
@@ -22,6 +23,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+		<style>
+			model-viewer{
+				width: 800px;
+				height: 600px;
+				margin: 0 auto;
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
@@ -33,6 +42,7 @@
 
 						<!-- Introduction -->
 							<section id="intro" class="main">
+								<model-viewer src="3D_assets_test\CHAHIN_BOTTLE_OF_SODA.gltf" alt="A 3D model of an astronaut" ar ar-modes="webxr scene-viewer quick-look" environment-image="neutral" auto-rotate camera-controls></model-viewer>
 							</section>
 
 						<!-- First Section -->
