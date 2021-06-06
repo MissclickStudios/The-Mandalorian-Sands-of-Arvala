@@ -3786,7 +3786,7 @@ input, select, textarea {
 		  .navbar a {
 			float: left;
 			display: block;
-			color: #f2f2f2;
+			color: #ffffff;
 			text-align: center;
 			padding: 14px 16px;
 			text-decoration: none;
@@ -3803,7 +3803,7 @@ input, select, textarea {
 			position: fixed;
 			bottom: px;
 			right: 0px; 
-			background-color: rgb(39, 23, 182);
+			background-color: rgb(48, 39, 218);
 		}
 
 		.glow {
