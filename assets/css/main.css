@@ -3957,3 +3957,27 @@ input, select, textarea {
 		  }
 
 		  /*TIMELINE DEVELOPMENT END*/
+
+		  /*download button*/
+		  .coolbutton {
+			display: inline-block;
+			padding: 25px 45px;
+			font-size: 40px;
+			cursor: pointer;
+			text-align: center;
+			text-decoration: none;
+			outline: none;
+			color: rgb(255, 255, 255);
+			background-color: #9b7218;
+			border: none;
+			border-radius: 15px;
+			box-shadow: 0 9px rgb(68, 66, 66);
+		  }
+		  
+		  .coolbutton:hover {background-color: #e8b922}
+		  
+		  .coolbutton:active {
+			background-color: #f2c637;
+			box-shadow: 0 5px #666;
+			transform: translateY(4px);
+		  }
