@@ -27,6 +27,13 @@ body {
 	line-height: 1;
 }
 
+p {
+	padding-top: 0;
+	margin-top: -3em;
+	margin-bottom: -3em;
+
+}
+
 ol, ul {
 	list-style: none;
 }
@@ -169,6 +176,8 @@ input, select, textarea {
 
 	p {
 		margin: 0 0 2em 0;
+		text-align: justify;
+		display: block;
 	}
 
 		p.content {
@@ -2365,7 +2374,7 @@ input, select, textarea {
 		}
 
 		.image.left, .image.right {
-			max-width: 40%;
+			max-width: 60%;
 		}
 
 			.image.left img, .image.right img {
@@ -2376,12 +2385,14 @@ input, select, textarea {
 			float: left;
 			margin: 0 1.5em 1em 0;
 			top: 0.25em;
+			border-radius: 8px;
 		}
 
 		.image.right {
 			float: right;
 			margin: 0 0 1em 1.5em;
 			top: 0.25em;
+			border-radius: 8px;
 		}
 
 		.image.fit {
