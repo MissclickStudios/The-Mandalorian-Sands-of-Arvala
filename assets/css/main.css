@@ -151,7 +151,7 @@ input, select, textarea {
 		-ms-transition: color 0.2s ease, border-bottom 0.2s ease;
 		transition: color 0.2s ease, border-bottom 0.2s ease;
 		text-decoration: none;
-		border-bottom: dotted 1px;
+		border-bottom: none;
 		color: inherit;
 	}
 
@@ -3214,6 +3214,7 @@ input, select, textarea {
 		background-color: #f7f7f7;
 		border-top-left-radius: 0.25em;
 		border-top-right-radius: 0.25em;
+		border:none;
 		cursor: default;
 		text-align: center;
 	}
@@ -3277,7 +3278,7 @@ input, select, textarea {
 					height: 2.25em;
 					line-height: 2.25em;
 					padding: 0 1.25em;
-					border: 0;
+					border:  none;
 					border-radius: 8px;
 					box-shadow: inset 0 0 0 1px transparent;
 				}
@@ -3776,7 +3777,7 @@ input, select, textarea {
 
 		/*TOPBAR*/
 		.navbar {
-			overflow: visible;
+			
 			background-color: #333;
 			position: fixed;
 			top: 0;
@@ -3795,8 +3796,8 @@ input, select, textarea {
 		  }
 		  
 		  .navbar a:hover {
-			background: rgb(97, 87, 87);
-			color: black;
+			background: rgb(54, 53, 57);
+			color: rgb(211, 211, 211);
 		  }
 		  
 		  /*FIXED BUTTON */
@@ -3804,24 +3805,28 @@ input, select, textarea {
 			position: fixed;
 			bottom: px;
 			right: 0px; 
-			background-color: rgb(48, 39, 218);
+			background-color: #A87434;
+		  }
+			.fixedbutton:hover {
+				background-color: #e2ad6c;
+			
 		}
+
+
 
 		.glow {
 			font-size: 17px;
 			color: #fff;
 			text-align: center;
-			-webkit-animation: glow 1s ease-in-out infinite alternate;
-			-moz-animation: glow 1s ease-in-out infinite alternate;
-			animation: glow 1s ease-in-out infinite alternate;
+	
 		  }
 		  
 		  @-webkit-keyframes glow {
 			from {
-			  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+			  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #A87434, 0 0 40px #A87434, 0 0 50px #A87434, 0 0 60px #A87434, 0 0 70px #A87434;
 			}
 			to {
-			  text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+			  text-shadow: 0 0 20px #fff, 0 0 30px #bf8d51, 0 0 40px #bf8d51, 0 0 50px #bf8d51, 0 0 60px #bf8d51, 0 0 70px #bf8d51, 0 0 80px #bf8d51;
 			}
 		  }
 
@@ -3844,7 +3849,7 @@ input, select, textarea {
 			content: '';
 			position: absolute;
 			width: 6px;
-			background-color: white;
+			background-color: rgb(194, 194, 194);
 			top: 0;
 			bottom: 0;
 			left: 50%;
@@ -3866,8 +3871,8 @@ input, select, textarea {
 			width: 25px;
 			height: 25px;
 			right: -17px;
-			background-color: white;
-			border: 4px solid #FF9F55;
+			background-color:  	white;
+			border: 4px solid #A87434;
 			top: 15px;
 			border-radius: 50%;
 			z-index: 1;
@@ -3892,9 +3897,9 @@ input, select, textarea {
 			width: 0;
 			z-index: 1;
 			right: 30px;
-			border: medium solid white;
+			border: medium solid  rgb(194, 194, 194);
 			border-width: 10px 0 10px 10px;
-			border-color: transparent transparent transparent white;
+			border-color: transparent transparent transparent  rgb(194, 194, 194);
 		  }
 		  
 		  /* Add arrows to the right container (pointing left) */
@@ -3906,9 +3911,9 @@ input, select, textarea {
 			width: 0;
 			z-index: 1;
 			left: 30px;
-			border: medium solid white;
+			border: medium solid rgb(194, 194, 194);
 			border-width: 10px 10px 10px 0;
-			border-color: transparent white transparent transparent;
+			border-color: transparent rgb(194, 194, 194) transparent transparent;
 		  }
 		  
 		  /* Fix the circle for containers on the right side */
@@ -3919,7 +3924,8 @@ input, select, textarea {
 		  /* The actual content */
 		  .content {
 			padding: 20px 30px;
-			background-color: white;
+			background-color: rgb(194, 194, 194);
+			color:rgb(54, 53, 57);
 			position: relative;
 			border-radius: 6px;
 		  }
@@ -3972,14 +3978,14 @@ input, select, textarea {
 			background-color: #9b7218;
 			border: none;
 			border-radius: 15px;
-			box-shadow: 0 9px rgb(68, 66, 66);
+			box-shadow: 0 9px rgb(174, 113, 73);
 		  }
 		  
 		  .coolbutton:hover {background-color: #e8b922}
 		  
 		  .coolbutton:active {
 			background-color: #f2c637;
-			box-shadow: 0 5px #666;
+			box-shadow: 0 5px rgb(174, 113, 73);
 			transform: translateY(4px);
 		  }
 
@@ -4392,7 +4398,7 @@ input, select, textarea {
   }
   
   .filter-button-group {
-	  border: 1px solid #e4e4e4;
+	  border: none;
 	  border-radius: 4px;
 	  margin: 10px 15px;
 	  display: inline-block;
