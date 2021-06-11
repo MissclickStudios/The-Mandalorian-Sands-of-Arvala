@@ -93,7 +93,7 @@ input, select, textarea {
 	}
 
 	body {
-		background-color: #e85339;
+		background-color: #826124;
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -110,14 +110,14 @@ input, select, textarea {
 /* Type */
 
 	body {
-		background-color: #d14d1d;
-		color: rgba(126, 77, 77, 0.65);
+		background-color: #846225;
+		color: rgba(230, 222, 205, 0.65);
 	}
 
 	body, input, select, textarea {
-		font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-family: "Lato", Helvetica, sans-serif;
 		font-size: 17pt;
-		font-weight: 300;
+		font-weight: 200;
 		line-height: 1.65;
 	}
 
@@ -3324,7 +3324,7 @@ input, select, textarea {
 /* Main */
 /*MAIN BACKGROUND COLOR*/
 	#main {
-		background-color: #5a0404;
+		background-color: #212225;
 		color: #d3cccc;
 		border-radius: 0.25em;
 	}
