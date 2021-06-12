@@ -4086,16 +4086,17 @@ img {vertical-align: middle;}
 		  /*download button*/
 		  .coolbutton {
 			display: inline-block;
-			padding: 25px 45px;
+			padding: 10px 20px;
 			font-size: 40px;
 			cursor: pointer;
 			text-align: center;
 			text-decoration: none;
 			outline: none;
 			color: rgb(255, 255, 255);
+			font-family: 'Staatliches', cursive; 
 			background-color: #dd9f0c;
 			border: none;
-			border-radius: 15px;
+			border-radius: 8px;
 			box-shadow: 0 9px rgb(174, 113, 73);
 		  }
 		  
