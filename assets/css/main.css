@@ -4093,16 +4093,16 @@ img {vertical-align: middle;}
 			text-decoration: none;
 			outline: none;
 			color: rgb(255, 255, 255);
-			background-color: #9b7218;
+			background-color: #dd9f0c;
 			border: none;
 			border-radius: 15px;
 			box-shadow: 0 9px rgb(174, 113, 73);
 		  }
 		  
-		  .coolbutton:hover {background-color: #e8b922}
+		  .coolbutton:hover {background-color: #dd9f0c}
 		  
 		  .coolbutton:active {
-			background-color: #f2c637;
+			background-color: #dd9f0c;
 			box-shadow: 0 5px rgb(174, 113, 73);
 			transform: translateY(4px);
 		  }
