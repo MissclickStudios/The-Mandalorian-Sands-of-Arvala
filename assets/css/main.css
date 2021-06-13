@@ -3918,6 +3918,27 @@ img {vertical-align: middle;}
 			color: rgb(211, 211, 211);
 		  }
 		  
+		  .logo{
+			float: left;
+			display: block;
+			color: #ffffff;
+			text-align: center;
+			padding: 14px 15px 14px 5px;
+			text-decoration: none;
+			font-size: 17px;
+		  }
+
+		  .logo:hover{
+			float: left;
+			display: block;
+			color: #ffffff;
+			background-color: #333 !important;
+			text-align: center;
+		
+			text-decoration: none;
+			font-size: 17px;
+		  }
+
 		  /*FIXED BUTTON */
 		  .fixedbutton {
 			position: fixed;
@@ -3926,7 +3947,7 @@ img {vertical-align: middle;}
 			background-color: #A87434;
 		  }
 			.fixedbutton:hover {
-				background-color: #e2ad6c;
+				background-color: #d59445 !important;
 			
 		}
 
