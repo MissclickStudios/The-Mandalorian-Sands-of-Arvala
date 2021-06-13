@@ -4,13 +4,15 @@
 <html>
 	
 	<div class="navbar">
-		<a style="padding-top: 15px; padding-bottom: 5px;"><img src="..\images\MissclickLogo.png" alt="Missclick Studios Logo" height="25"></a>
+		<a class="logo"><img src="..\images\MissclickLogo.png" alt="Missclick Studios Logo" height="25"></a>
 		<a href="..\index.html">HOME</a>
-		<a class="active" href="..\missclick_studios.html">TEAM</a>
-		<a href="..\development.html">DEVELOPMENT</a>
+		<a class="active" href="..\missclick_studios.html">THE TEAM</a>
+		<a href="..\development.html">PRODUCTION</a>
+		<a href="..\game.html">GAME</a>
 		<a href="..\missclick_engine.html">ENGINE</a>
-		<div class="fixedbutton">
-			<a href="..\index.html#download"><!--Make sure this works-->						
+		<a href="..\postmortem.html">POSTMORTEM</a>
+		<div>
+			<a href="..\index.html#download" class="fixedbutton">						
 				<i class="fas fa-download"></i>
 			</a>
 		</div>
@@ -59,11 +61,11 @@
 								
 									<h1 style="display: inline-flex; margin-bottom: -15px;" >PAU PEDRA - LEAD PROGRAMMER</h1>
 
-									<img style="float:right; margin-left: 15px; border-radius: 8px; " src="../images/team/pau_pedra/Pau_Pedra.png" alt="Pau Pedra" width="30%"/>
+									<img class="profilepic" src="../images/team/pau_pedra/Pau_Pedra.png" alt="Pau Pedra" width="30%"/>
 									<div style="float:right;  margin-bottom: -15px;">	
 										<ul class="icons">
-											<li><a href="https://www.linkedin.com/in/pau-pedra-bonifacio/" class="icon brands fa-linkedin alt"><span class="label">Linkedin</span></a></li>											
-											<li><a href="https://github.com/paupedra" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
+											<li><a href="https://www.linkedin.com/in/pau-pedra-bonifacio/" class="icon brands fa-linkedin alt" target="_blank" rel="noopener noreferrer"><span class="label">Linkedin</span></a></li>											
+											<li><a href="https://github.com/paupedra" class="icon brands fa-github alt" target="_blank" rel="noopener noreferrer"><span class="label">GitHub</span></a></li>
 										</ul>
 									</div>
 									<hr> <!-- -->
@@ -76,7 +78,7 @@
 									</p>
 								</h1>
 								<br>
-								<h2>PROJECT CONTIBUTION</h2>
+								<h2>PROJECT CONTRIBUTION</h2>
 								<div style="clear:both">
 									<p style="margin-top: -1em"><strong>Coding Conventions</strong><br>I created a document that held the Coding Conventions for the project. We decided to use camelCase to experiment with it. Some of the conventions were discussed with all programmers so we were all comfortable with them.</p>
 									<p style="margin-top: -1em"><strong>Branching Policies</strong><br>I set some Branching Policies so that it was clear how they would be used and how we would merge and create them. I was responsible for committing the merges and checking that they were done correctly as well as for creating new branches.</p>
@@ -93,8 +95,10 @@
 								<div class="slideshow-container">
 
 								<div class="mySlides fade">
-									<img src="../images/team/pau_fiol/pau_fiol_menu.png" style="width:100%;  border-radius: 8px;">
-									<div class="captiontext">Main Menu Backdrop</div>
+									<video autoplay muted loop id="ID" style="width:100%;  border-radius: 8px;">
+										<source src="../images/team/pau_pedra/dialog_system.mp4" type="video/mp4">
+									  </video>
+									<div class="captiontext">Dialog System</div>
 								</div>
 
 								<div class="mySlides fade">

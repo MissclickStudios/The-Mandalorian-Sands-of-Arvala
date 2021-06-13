@@ -4,13 +4,15 @@
 <html>
 	
 	<div class="navbar">
-		<a style="padding-top: 15px; padding-bottom: 5px;"><img src="..\images\MissclickLogo.png" alt="Missclick Studios Logo" height="25"></a>
+		<a class="logo"><img src="..\images\MissclickLogo.png" alt="Missclick Studios Logo" height="25"></a>
 		<a href="..\index.html">HOME</a>
-		<a class="active" href="..\missclick_studios.html">TEAM</a>
-		<a href="..\development.html">DEVELOPMENT</a>
+		<a class="active" href="..\missclick_studios.html">THE TEAM</a>
+		<a href="..\development.html">PRODUCTION</a>
+		<a href="..\game.html">GAME</a>
 		<a href="..\missclick_engine.html">ENGINE</a>
-		<div class="fixedbutton">
-			<a href="..\index.html#download"><!--Make sure this works-->						
+		<a href="..\postmortem.html">POSTMORTEM</a>
+		<div>
+			<a href="..\index.html#download" class="fixedbutton">						
 				<i class="fas fa-download"></i>
 			</a>
 		</div>
@@ -59,11 +61,11 @@
 								
 									<h1 style="display: inline-flex; margin-bottom: -15px;" >MIQUEL QUINTANA - ARTIST</h1>
 
-									<img style="float:right; margin-left: 15px; border-radius: 8px; " src="../images/team/miquel_quintana/Miquel_Quintana.jpeg" alt="Pau Fiol" width="30%"/>
+									<img class="profilepic" src="../images/team/miquel_quintana/Miquel_Quintana.jpeg" alt="Pau Fiol" width="30%"/>
 									<div style="float:right;  margin-bottom: -15px;">	
 										<ul class="icons">
-											<li><a href="https://www.linkedin.com/in/miquel-quintana-i-griera-54b0081b1/" class="icon brands fa-linkedin alt"><span class="label">Linkedin</span></a></li>											
-											<li><a href="https://github.com/leukino" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
+											<li><a href="https://www.linkedin.com/in/miquel-quintana-i-griera-54b0081b1/" class="icon brands fa-linkedin alt" target="_blank" rel="noopener noreferrer"><span class="label">Linkedin</span></a></li>											
+											<li><a href="https://github.com/leukino" class="icon brands fa-github alt" target="_blank" rel="noopener noreferrer"><span class="label">GitHub</span></a></li>
 										</ul>
 									</div>
 									<hr>
@@ -73,7 +75,7 @@
 									  </p>
 								</h1>
 								<br>
-								<h2>PROJECT CONTIBUTION</h2>
+								<h2>PROJECT CONTRIBUTION</h2>
 								<div style="clear:both">
 									<p style="margin-top: -1em"><strong>3D modeling</strong><br>Part of my tasks were creating 3d assets to be placed in the game. They were modeled in 3DS Max, and the average poly count is around 300 tris per model, for optimal performance rendering in our engine. </p>
 									<p style="margin-top: -1em"><strong>Texturing</strong><br>I did part of the texturing part in the project aswell. They were done in Substance Painter, with baked lights and no normal maps, with textures between 128 and 512px, again to accomplish good performance in the engine.</p>
@@ -122,21 +124,42 @@
 								</div>
 
 								<div class="mySlides fade" style="text-align:center">
-									<audio controls>
-										<source src="../images/team/miquel_quintana/cantina_final.wav" type="audio/wav">
-									</audio>
-									<audio controls>
-										<source src="../images/team/miquel_quintana/mainmenu.wav" type="audio/wav">
-								 	 </audio>
-									  <audio controls>
-										<source src="../images/team/miquel_quintana/credits.wav" type="audio/wav">
-								 	 </audio>
-									  <audio controls>
-										<source src="../images/team/miquel_quintana/mando_finalfight.wav" type="audio/wav">
-								 	 </audio>
-									  <audio controls>
-										<source src="../images/team/miquel_quintana/mando_death.wav" type="audio/wav">
-								 	 </audio>
+									<div style="display: table; margin: auto; width: 90%;">
+										<div style="padding: 10px; display: table-cell;">
+											Hub music
+											<audio controls >
+												<source src="../images/team/miquel_quintana/cantina_final.wav" type="audio/wav">
+											</audio>	
+										</div>
+										<div style="padding: 10px; display: table-cell;">
+											Final boss music
+											<audio controls>
+												<source src="../images/team/miquel_quintana/mando_finalfight.wav" type="audio/wav">
+											</audio>	
+										</div>
+										<div style="padding: 10px; display: table-cell;">
+											Main menu theme
+											<audio controls>
+												<source src="../images/team/miquel_quintana/mainmenu.wav" type="audio/wav">
+											</audio>	
+										</div>
+									</div>
+								</div>
+								<div class="mySlides fade" style="text-align:center">
+									<div style="display: table; margin: auto; width: 90%;">
+										<div style="padding: 10px; display: table-cell;">
+											Credits music
+											<audio controls >
+												<source src="../images/team/miquel_quintana/credits.wav" type="audio/wav">
+											</audio>	
+										</div>
+										<div style="padding: 10px; display: table-cell;">
+											Death music
+											<audio controls>
+												<source src="../images/team/miquel_quintana/mando_death.wav" type="audio/wav">
+											</audio>	
+										</div>
+									</div>
 								</div>
 								<!--COPY THE div ABOVE TO HAVE MORE PAGES-->
 
@@ -148,6 +171,12 @@
 								<span class="dot" onclick="currentSlide(1)"></span> 
 								<span class="dot" onclick="currentSlide(2)"></span> 
 								<span class="dot" onclick="currentSlide(3)"></span>
+								<span class="dot" onclick="currentSlide(4)"></span>
+								<span class="dot" onclick="currentSlide(5)"></span>
+								<span class="dot" onclick="currentSlide(6)"></span>
+								<span class="dot" onclick="currentSlide(7)"></span>
+								<span class="dot" onclick="currentSlide(8)"></span>
+								<span class="dot" onclick="currentSlide(9)"></span>
 								<!--COPY THE span ABOVE TO HAVE MORE PAGES: MUST MATCH NUMBER OF divs-->
 							</div>
 							<br>

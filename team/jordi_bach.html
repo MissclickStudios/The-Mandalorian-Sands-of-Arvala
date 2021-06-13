@@ -4,13 +4,15 @@
 <html>
 	
 	<div class="navbar">
-		<a style="padding-top: 15px; padding-bottom: 5px;"><img src="..\images\MissclickLogo.png" alt="Missclick Studios Logo" height="25"></a>
+		<a class="logo"><img src="..\images\MissclickLogo.png" alt="Missclick Studios Logo" height="25"></a>
 		<a href="..\index.html">HOME</a>
-		<a class="active" href="..\missclick_studios.html">TEAM</a>
-		<a href="..\development.html">DEVELOPMENT</a>
+		<a class="active" href="..\missclick_studios.html">THE TEAM</a>
+		<a href="..\development.html">PRODUCTION</a>
+		<a href="..\game.html">GAME</a>
 		<a href="..\missclick_engine.html">ENGINE</a>
-		<div class="fixedbutton">
-			<a href="..\index.html#download"><!--Make sure this works-->						
+		<a href="..\postmortem.html">POSTMORTEM</a>
+		<div>
+			<a href="..\index.html#download" class="fixedbutton">						
 				<i class="fas fa-download"></i>
 			</a>
 		</div>
@@ -59,11 +61,11 @@
 								
 									<h1 style="display: inline-flex; margin-bottom: -15px;" >JORDI BACH - PROGRAMMER</h1>
 
-									<img style="float:right; margin-left: 15px; border-radius: 8px; " src="../images/team/jordi_bach/jordi_bach.png" alt="Pau Fiol" width="30%"/>
+									<img class="profilepic" src="../images/team/jordi_bach/jordi_bach.png" alt="Pau Fiol" width="30%"/>
 									<div style="float:right;  margin-bottom: -15px;">	
 										<ul class="icons">
-											<li><a href="www.linkedin.com/in/jordi-bach-822510214" class="icon brands fa-linkedin alt"><span class="label">Linkedin</span></a></li>											
-											<li><a href="https://github.com/bottzo" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
+											<li><a href="https://www.linkedin.com/in/jordi-bach-822510214/" class="icon brands fa-linkedin alt" target="_blank" rel="noopener noreferrer"><span class="label">Linkedin</span></a></li>											
+											<li><a href="https://github.com/bottzo" class="icon brands fa-github alt" target="_blank" rel="noopener noreferrer"><span class="label">GitHub</span></a></li>
 										</ul>
 									</div>
 									<hr>
@@ -74,13 +76,14 @@
 								<br>
 								<h2>PROJECT CONTRIBUTION</h2>
 								<div style="clear:both">
-									<p style="margin-top: -1em"><strong>Engine Build Structure</strong><br>I was in charge of implementing the base engine design we had in mind detailed under the engine tab. Shortly, creating 4 visual studio projects for the game, the engine and the core dynamic library and also the scripting dynamic library and linking them correctlly with their respective dependancies. I also specifyed the diferent project build configurations.</p>
+									<p style="margin-top: -1em"><strong>Engine Build Structure</strong><br>I was in charge of implementing the base engine design we had in mind detailed under the engine tab. Shortly, creating 4 visual studio projects that build the game and engine executables, a scripting dynamic library linked at runtime and the core dynamic library with the shered code between all the preavious projects. I also specifyed the diferent project build configurations.</p>
 									<p style="margin-top: -1em"><strong>Library Building</strong><br>I used cmake to build some x86 open source third party library required for our project or to replace some versions we already had that had problems. Some examples are assimp, optick, physX etc.</p>
 									<p style="margin-top: -1em"><strong>Scripting System</strong><br>I developed a C/C++ scripting system supporting hot reloading and inspector variables for our custom engine.</p>
 									<p style="margin-top: -1em"><strong>Ui System</strong><br>I developed the engine 2D ui system. I also worked with Santiago on the 2Danimator component and the support for texture coordinates used on the spritesheets and the ui atlas.</p>
 									<p style="margin-top: -1em"><strong>Game Ui Implementation</strong><br>I implemented most of the game ui and some ui 2D animations through the scripting system. This includes in game menus, player hud, weapon info and menu scenes ui. I also worked positioning some ui elements on its place.</p>
 									<p style="margin-top: -1em"><strong>Game Loop implementation</strong><br>I worked with the game loop logic conecting it with the menus and randomizing the different rooms order.</p>
-									<p style="margin-top: -1em"><strong>Pathfinding integration</strong><br>I supported the pathfinding integration working on inputing correcly the geometry to the recast library, rendering the output mesh and saving this mesh.</p>							
+									<p style="margin-top: -1em"><strong>Pathfinding integration</strong><br>I supported the pathfinding integration working on inputing correcly the geometry to the recast library, rendering the output mesh and saving this mesh.</p>
+									<p style="margin-top: -1em"><strong>Game Repository Mainteinance</strong><br>I was in charge to keep up to date the github game repository that contained the game and engine on executable mode.</p>							
 								</div>
 
 								

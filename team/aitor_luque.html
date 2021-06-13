@@ -4,13 +4,15 @@
 <html>
 	
 	<div class="navbar">
-		<a style="padding-top: 15px; padding-bottom: 5px;"><img src="..\images\MissclickLogo.png" alt="Missclick Studios Logo" height="25"></a>
+		<a class="logo"><img src="..\images\MissclickLogo.png" alt="Missclick Studios Logo" height="25"></a>
 		<a href="..\index.html">HOME</a>
-		<a class="active" href="..\missclick_studios.html">TEAM</a>
-		<a href="..\development.html">DEVELOPMENT</a>
+		<a class="active" href="..\missclick_studios.html">THE TEAM</a>
+		<a href="..\development.html">PRODUCTION</a>
+		<a href="..\game.html">GAME</a>
 		<a href="..\missclick_engine.html">ENGINE</a>
-		<div class="fixedbutton">
-			<a href="..\index.html#download"><!--Make sure this works-->						
+		<a href="..\postmortem.html">POSTMORTEM</a>
+		<div>
+			<a href="..\index.html#download" class="fixedbutton">						
 				<i class="fas fa-download"></i>
 			</a>
 		</div>
@@ -59,12 +61,12 @@
 								
 									<h1 style="display: inline-flex; margin-bottom: -15px;" >AITOR LUQUE - PROGRAMMER</h1>
 
-									<img style="float:right; margin-left: 15px; border-radius: 8px; " src="../images/team/aitor_luque/aitor_luque.jpg" alt="Aitor Luque" width="30%"/>
+									<img class="profilepic" src="../images/team/aitor_luque/aitor_luque.jpg" alt="Aitor Luque" width="30%"/>
 									<div style="float:right;  margin-bottom: -15px;">	
 										<ul class="icons">
-											<li><a href="https://www.linkedin.com/in/aitor-luque-bodet/" class="icon brands fa-linkedin alt"><span class="label">Linkedin</span></a></li>											
-											<li><a href="https://github.com/Aitorlb7" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
-											<li><a href="https://twitter.com/aitorluque7" class="icon brands fa-twitter alt"><span class="label">Instagram</span></a></li>	
+											<li><a href="https://www.linkedin.com/in/aitor-luque-bodet/" class="icon brands fa-linkedin alt" target="_blank" rel="noopener noreferrer"><span class="label">Linkedin</span></a></li>											
+											<li><a href="https://github.com/Aitorlb7" class="icon brands fa-github alt" target="_blank" rel="noopener noreferrer"><span class="label">GitHub</span></a></li>
+											<li><a href="https://twitter.com/aitorluque7" class="icon brands fa-twitter alt" target="_blank" rel="noopener noreferrer"><span class="label">Instagram</span></a></li>	
 										</ul>
 									</div>
 									<hr>
@@ -114,7 +116,12 @@
 								
 							</section>	
 								<div class="slideshow-container">
-
+									<div class="mySlides fade">
+										<video autoplay muted loop id="ID" style="width:100%;  border-radius: 8px;">
+											<source src="../images/team/aitor_luque/shaders_system.mp4" type="video/mp4">
+										  </video>
+										  <div class="captiontext">Shaders System</div>
+									</div>
 
 								<div class="mySlides fade">
 									<video autoplay muted loop id="ID" style="width:100%;  border-radius: 8px;">
@@ -152,7 +159,8 @@
 								<span class="dot" onclick="currentSlide(1)"></span> 
 								<span class="dot" onclick="currentSlide(2)"></span> 
 								<span class="dot" onclick="currentSlide(3)"></span>
-								<span class="dot" onclick="currentSlide(3)"></span>
+								<span class="dot" onclick="currentSlide(4)"></span>
+								<span class="dot" onclick="currentSlide(5)"></span>
 								<!--COPY THE span ABOVE TO HAVE MORE PAGES: MUST MATCH NUMBER OF divs-->
 							</div>
 							<br>
