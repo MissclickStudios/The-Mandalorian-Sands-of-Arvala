@@ -52,15 +52,15 @@
 
 						</section>
 						<!-- Methodology -->
-						<section id="first" class="main">
-							<h1>Scrum methodology</h1>
-							<p>We developed this project using the Scrum methodology which is more focused on short & structured sprints. The initial stage of the project was done by departments and once the project started getting on track we split into scrum teams for each of those sprints, which were formed by members of different departments that were working on the same aspect of the game.
-							<h2>Sprints</h2>
-							<p style="margin-top: -1em"><b>Weekly goals</b><br> Schedule to review the state of the task's progress and quality to make sure the development phase is advancing properly.</p>
-							<p style="margin-top: -1em"><b>Producer & Leads meetings</b><br> Took place at least once a week or whenever it was needed. Their purpose was to facilitate the communication among departments and to speed up decision-making processes. These meetings were called by the producer and followed a previously sent organization in order to remain in topic and be as effective as possible. They also served as evaluation meetings were we individually analysed the work of our teammates to improve upon next milestones.</p>
-							<p style="margin-top: -1em"><b>Weekly sessions</b><br> Scheduled every week on Tuesdays at 8:30 and Thursdays at 10:45, all of the team gathered to share the major advances of the week, take group decisions, and comment any aspect of the project that needed to. After that, we did stand ups with every scrum team, where they shared their progress and solved any issues they might have.</p>
-							<p style="margin-top: -1em"><b>Daily communication</b><br> Meeting twice a week wasn't enough for obvious reasns, that is why we kept constant communication through our discord server where every department and scrum team had a separate category to communicate without bothering others and keeping everything well-organized. We also used it for any extraordinary meetings that departments or scrum teams needed, and to stay connected while working.</p>
-						</section>
+							<section id="first" class="main">
+								<h1>Scrum methodology</h1>
+								<p>We developed this project using the Scrum methodology which is more focused on short & structured sprints. The initial stage of the project was done by departments and once the project started getting on track we split into scrum teams for each of those sprints, which were formed by members of different departments that were working on the same aspect of the game.
+								<h2>Sprints</h2>
+								<p style="margin-top: -1em"><b>Weekly goals</b><br> Schedule to review the state of the task's progress and quality to make sure the development phase is advancing properly.</p>
+								<p style="margin-top: -1em"><b>Producer & Leads meetings</b><br> Took place at least once a week or whenever it was needed. Their purpose was to facilitate the communication among departments and to speed up decision-making processes. These meetings were called by the producer and followed a previously sent organization in order to remain in topic and be as effective as possible. They also served as evaluation meetings were we individually analysed the work of our teammates to improve upon next milestones.</p>
+								<p style="margin-top: -1em"><b>Weekly sessions</b><br> Scheduled every week on Tuesdays at 8:30 and Thursdays at 10:45, all of the team gathered to share the major advances of the week, take group decisions, and comment any aspect of the project that needed to. After that, we did stand ups with every scrum team, where they shared their progress and solved any issues they might have.</p>
+								<p style="margin-top: -1em"><b>Daily communication</b><br> Meeting twice a week wasn't enough for obvious reasns, that is why we kept constant communication through our discord server where every department and scrum team had a separate category to communicate without bothering others and keeping everything well-organized. We also used it for any extraordinary meetings that departments or scrum teams needed, and to stay connected while working.</p>
+							</section>
 
 						<!-- Development timetable -->
 							<section id="second" class="main">
@@ -138,8 +138,47 @@
 											<li>INSERTAR PROGRAMMING GOAL</li>
 										  </div>
 									</div>
-								</div> 
+								</div>
+						
+							</section>
+							<!-- MOCAP -->
+							<section id="third" class="main">
+								<h1>MOCAP session</h1>
+								<p> INSERTAR TEXTO INTRODUCIENDO LA COLABORACIÓN CON SMILEGATE </p>
+								</section>
+							<div class="slideshow-container">
+
+								<div class="mySlides fade">
+									<img src="images/team/pau_fiol/pau_fiol_menu.png" style="width:100%;  border-radius: 8px;">
+									<div class="captiontext">VÍDEO MOCAP 1</div>
+								</div>
+
+								<div class="mySlides fade">
+									<img src="images/team/pau_fiol/pau_fiol_turret.PNG" style="width:100%;  border-radius: 8px;">
+									<div class="captiontext">VÍDEO MOCAP 2</div>
+								</div>
+
+								<div class="mySlides fade">	
+									<img src="images/team/pau_fiol/pau_fiol_forge.PNG" style="width:100%;  border-radius: 8px;">
+									<div class="captiontext">VÍDEO MOCAP 3</div>
+								</div>
+
+								<!--COPY THE div ABOVE TO HAVE MORE PAGES-->
+
+								<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+								<a class="next" onclick="plusSlides(1)">&#10095;</a>
+							</div>
+								
+							<div style="text-align:center">
+								<span class="dot" onclick="currentSlide(1)"></span> 
+								<span class="dot" onclick="currentSlide(2)"></span> 
+								<span class="dot" onclick="currentSlide(3)"></span>
+								<!--COPY THE span ABOVE TO HAVE MORE PAGES: MUST MATCH NUMBER OF divs-->
+							</div>
+							<br>
+							<br>
 					</div>
+					
 					<br>
 					<br>
 					<br>
@@ -147,6 +186,34 @@
 			</div>
 
 		<!-- Scripts -->
+			<script>
+				var slideIndex = 1;
+				showSlides(slideIndex);
+				
+				function plusSlides(n) {
+				showSlides(slideIndex += n);
+				}
+				
+				function currentSlide(n) {
+				showSlides(slideIndex = n);
+				}
+				
+				function showSlides(n) {
+				var i;
+				var slides = document.getElementsByClassName("mySlides");
+				var dots = document.getElementsByClassName("dot");
+				if (n > slides.length) {slideIndex = 1}    
+				if (n < 1) {slideIndex = slides.length}
+				for (i = 0; i < slides.length; i++) {
+					slides[i].style.display = "none";  
+				}
+				for (i = 0; i < dots.length; i++) {
+					dots[i].className = dots[i].className.replace(" active", "");
+				}
+				slides[slideIndex-1].style.display = "block";  
+				dots[slideIndex-1].className += " active";
+				}
+			</script>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
