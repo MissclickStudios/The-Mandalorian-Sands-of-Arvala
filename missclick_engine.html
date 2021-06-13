@@ -76,19 +76,23 @@
 									All the scripts inherit from a base script class with the start/update/cleanup cycle and the support from collision detection functions to override. You can include any exported engine header to use on the scripts.</p>
 								<p style="margin-top: -1em">The system supports inspector variables from atomic types, some std library containers like string and vectors and enums.
 									The system also supports hot reloading to enable the developer to edit his code at runtime without the need to close and restart the application each time a change is made.</p>
+
 									<div style="width: 70%; margin:auto; padding-bottom:40px">
 										<video autoplay muted loop id="ID" style="width:100%;  border-radius: 8px;">
 											<source src="images/missclick_engine/scripting_system.mp4" type="video/mp4">
 										  </video>
 									</div>
-								<h2>HIGH LEVEL SYSTEM  2</h2>
-								<p style="margin-top: -1em">The Particle System allows the user to create different Particle Emitters which are able to shoot different images in various ways.</p>
-								<p style="margin-top: -1em">The system features a Modular system in which Emitters can have various modules which add a certain behaviour to them. This makes for a widely modular system with a lot of modifiable modules and different combinations.</p>
-								<div style="width: 70%; margin:auto; padding-bottom:40px">
+									<h2>SHADERS</h2>
+									<p style="margin-top: -1em">Using a shader pipeline allows the engine to render the scene and make the necesary calculations through the GPU, optimizing the performance and enabling to create various effetcs.</p>
+									<p style="margin-top: -1em">The system features uniform modification from the engine inspector, on-engine shader editor and throughout the development all the renders transitioned from standard OpenGl rendering to shaders (GLSL).<br>
+									The system had numerous improvements such as Cel shading, Outlining and Lighting implementation.
+									</p>
+									<div style="width: 70%; margin:auto; padding-bottom:40px">
 									<video autoplay muted loop id="ID" style="width:100%;  border-radius: 8px;">
 										<source src="../images/team/pau_pedra/dialog_system.mp4" type="video/mp4">
 									  </video>
 								</div>
+
 							</section>
 
 							<section id="Third" class="main">
