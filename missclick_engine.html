@@ -39,40 +39,63 @@
 						<!-- Introduction -->
 							<section id="intro" class="main">
 								<h1 style="font-size: 70px;">MISSCLICK ENGINE</h1>
-								<p>Missclick Engine is an Open-Source 3D Game Engine forked from Null Engine and further developed by Missclick Studios’s programming team. The engine features several high level systems which have been developed throughout this project. </p>
+								<p>Missclick Engine is an Open-Source 3D Game Engine forked from Null Engine and further developed by Missclick Studios’s programming team.</p>  
+								<p>The engine is built from 4 main visual studio projects. Two of them are the engine and the game executables that share code with a core dynamic library (.dll) file built on the third project. Finally, the fourth and last project is for the scripting system. </p>
 								<p>Here is a detailed list of them with extra information on them: </p>
 							</section>
 
 						<!-- First Section -->
 							<section id="first" class="main">
-								<h2>Animations</h2>
+								<h2>ANIMATIONS</h2>
 								<p style="margin-top: -1em">The Animations System allows the user to import fbx files with animations in them and let the user see the fully rigged models and play the animations.</p> 
 								<p style="margin-top: -1em">It features a Clips system which makes it so the user can cut the animations into shorter cuts of animation. These clips can be edited, added or deleted at the user’s will.</p>
 								<p style="margin-top: -1em">Another very important feature is the Track system which allows for the creation of different Tracks that take a root bone and play a certain Clip only affecting the bones that are children of this specified bone. This allowed us to create the unique feature for Mando which allows it to walk and aim in different directions at the same time.</p>
-								
-								<h2>Particles</h2>
+								<div style="width: 70%; margin:auto; padding-bottom:40px">
+									<video autoplay muted loop id="ID" style="width:100%;  border-radius: 8px;">
+										<source src="../images/team/pau_pedra/dialog_system.mp4" type="video/mp4">
+									  </video>
+								</div>
+								<h2>PARTICLES</h2>
 								<p style="margin-top: -1em">The Particle System allows the user to create different Particle Emitters which are able to shoot different images in various ways.</p>
 								<p style="margin-top: -1em">The system features a Modular system in which Emitters can have various modules which add a certain behaviour to them. This makes for a widely modular system with a lot of modifiable modules and different combinations.</p>
-
+								<div style="width: 70%; margin:auto; padding-bottom:40px">
+									<video autoplay muted loop id="ID" style="width:100%;  border-radius: 8px;">
+										<source src="images/missclick_engine/particle_system.mp4" type="video/mp4">
+									  </video>
+								</div>
 								<h2>USER INTERFACE</h2>
 								<p style="margin-top: -1em">The engine ui system lets the user implement 2D ui for the game. The main idea of the system is the creation of a canvas that contains different ui elements in the order for rendering. Then, from the scripting system you can push or pop this canvas to activate the full canvas(menu) with all the elements. Once it gets activated the elements get rendered and the navigation logic from the top canvas gets updated.</p>
 								<p style="margin-top: -1em">The system has a base Ui component from which the different ui implementations inherit. All the elements supported are images, buttons, checkbox and sliders.All these components support texture coordinate manipulation letting the creation of a ui atlas or sprite sheets.</p>
-
-								<h2>Scripting</h2>
+								<div style="width: 70%; margin:auto; padding-bottom:40px">
+									<video autoplay muted loop id="ID" style="width:100%;  border-radius: 8px;">
+										<source src="images/missclick_engine/user_interface.mp4" type="video/mp4">
+									  </video>
+								</div>
+								<h2>SCRIPTING</h2>
 								<p style="margin-top: -1em">The engine scripting system is written and supports the C/C++ languages. It is built to compile all the scripts into a dynamic library that gets linked to the game/engine at runtime.
 									All the scripts inherit from a base script class with the start/update/cleanup cycle and the support from collision detection functions to override. You can include any exported engine header to use on the scripts.</p>
 								<p style="margin-top: -1em">The system supports inspector variables from atomic types, some std library containers like string and vectors and enums.
 									The system also supports hot reloading to enable the developer to edit his code at runtime without the need to close and restart the application each time a change is made.</p>
-							
-								<h2>HIGH LEVEL SYSTEM  2</h2>
-								<p style="margin-top: -1em">The Particle System allows the user to create different Particle Emitters which are able to shoot different images in various ways.</p>
-								<p style="margin-top: -1em">The system features a Modular system in which Emitters can have various modules which add a certain behaviour to them. This makes for a widely modular system with a lot of modifiable modules and different combinations.</p>
-								
-							
+
+									<div style="width: 70%; margin:auto; padding-bottom:40px">
+										<video autoplay muted loop id="ID" style="width:100%;  border-radius: 8px;">
+											<source src="images/missclick_engine/scripting_system.mp4" type="video/mp4">
+										  </video>
+									</div>
+									<h2>SHADERS</h2>
+									<p style="margin-top: -1em">Using a shader pipeline allows the engine to render the scene and make the necesary calculations through the GPU, optimizing the performance and enabling to create various effetcs.</p>
+									<p style="margin-top: -1em">The system features uniform modification from the engine inspector, on-engine shader editor and throughout the development all the renders transitioned from standard OpenGl rendering to shaders (GLSL).<br>
+									The system had numerous improvements such as Cel shading, Outlining and Lighting implementation.
+									</p>
+									<div style="width: 70%; margin:auto; padding-bottom:40px">
+									<video autoplay muted loop id="ID" style="width:100%;  border-radius: 8px;">
+										<source src="../images/team/pau_pedra/dialog_system.mp4" type="video/mp4">
+									  </video>
+								</div>
 
 							</section>
 
-							<section id="Second" class="main">
+							<section id="Third" class="main">
 								<h3>External Libraries Used</h3>
 								<p><a href="https://www.sdl.com/es/">SDLv.2.0</a><br>
 								<a href="https://www.opengl.org//">OpenGL v4.6</a><br>
