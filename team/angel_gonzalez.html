@@ -17,7 +17,7 @@
 	</div> 
 
 	<head>
-		<title>Name Surname</title>
+		<title>Angel Gonzalez</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="../assets/css/main.css" />
@@ -57,35 +57,85 @@
 								
 								<h1>
 								
-									<h1 style="display: inline-flex; margin-bottom: -15px;" >PAU FIOL - ARTIST</h1>
+									<h1 style="display: inline-flex; margin-bottom: -15px;" >ANGEL GONZALEZ - PROGRAMMER</h1>
 
-									<img style="float:right; margin-left: 15px; border-radius: 8px; " src="../images/team/pau_fiol/pau_fiol.jpeg" alt="Pau Fiol" width="30%"/>
+									<img style="float:right; margin-left: 15px; border-radius: 8px; " src="../images/team/angel_gonzalez/angel_gonzalez.jpg" alt="Angel Gonzalez" width="30%"/>
 									<div style="float:right;  margin-bottom: -15px;">	
 										<ul class="icons">
-											<li><a href="LINK HERE" class="icon brands fa-linkedin alt"><span class="label">Linkedin</span></a></li>											
-											<li><a href="LINK HERE" class="icon brands fa-github alt"><span class="label">GitHub</span></a></li>
-											<li><a href="LINK HERE" class="icon brands fa-instagram alt"><span class="label">Instagram</span></a></li>	
+											<li><a href="https://www.linkedin.com/in/angel-gonzalez-jimenez/" class="icon brands fa-linkedin alt" target="_blank" rel="noopener noreferrer"><span class="label">Linkedin</span></a></li>											
+											<li><a href="https://github.com/BarcinoLechiguino" class="icon brands fa-github alt" target="_blank" rel="noopener noreferrer"><span class="label">GitHub</span></a></li>
+											<li><a href="https://twitter.com/AngelGonzalezJ" class="icon brands fa-twitter alt" target="_blank" rel="noopener noreferrer"><span class="label">Instagram</span></a></li>
 										</ul>
 									</div>
 									<hr>
-									<p>Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fergiat. Pellentesque in mi eu massa lacinia malesuada et a elit. Donec urna ex, lacinia in purus ac, pretium pulvinar mauris. Curabitur sapien risus, commodo eget turpis at, elementum convallis fames ac ante ipsum primis in faucibus.</p>
+									<p>	
+										Hi, I'm Ángel Gonzàlez and I have been an Engine and Gameplay Programmer for this project. 
+										My main focus was to ensure the engine worked as efficiently as possible and to implement the Animation System and fully utilize it's capabilities to bring forward the best possible results in-game.
+										
+										<br><br>
+										During this project I had to maintain thourough communications with the Design and Art teams to ensure that the features and assets they were envisioning
+										could be employed in the game without any issues. Overall, this project has been an incredible learning experience, both in the programming and team communication departments. 
+										
+									</p>
 								</h1>
 								<br>
-								<h2>PROJECT CONTIBUTION</h2>
+								<h2>PROJECT CONTRIBUTION</h2>
 								<div style="clear:both">
-									<p style="margin-top: -1em"><strong>Task name</strong><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ultrices neque ac vestibulum blandit. Fusce gravida velit in ligula interdum gravida. Cras non ultrices massa. Morbi mauris eros, elementum et magna ac, placerat mollis orci. Curabitur nec nibh vel velit dictum vehicula. Donec a nibh quis sapien lacinia lobortis tincidunt in mi.</p>
-									<p style="margin-top: -1em"><strong>Task name</strong><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ultrices neque ac vestibulum blandit.</p>
-									<p style="margin-top: -1em"><strong>Task name</strong><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ultrices neque ac vestibulum blandit.</p>							
-								</div>
+									<p style="margin-top: -1em"><strong>Engine: Engine Base</strong>
+										<br>Provided the <a href="https://github.com/BarcinoLechiguino/NULL_Engine/releases/tag/v0.75" style="color:#dd9f0c" target="_blank" rel="noopener noreferrer">base engine</a> upon which Missclick Engine was built. The most notable feature of the base would be the Resource Manager, capable of keeping track of which resources are being used in runtime and keeping memory usage to the minimum.</p>
+									
+									<p style="margin-top: -1em"><strong>Engine: Animation System</strong>
+										<br>Implemented an Animation System capable of importing fbx files into the Engine, loading them into the scene and reproducing the animations.
+										<br>
+										<br>On one hand, it features a Clip Management System, which allows the user to pick and animation and "cut" it in multiple segments.
+										<br>
+										<br>On the other hand, it features a Track Management System, which allows the user to define which bone of the model's rigging will act as the Root Bone.
+									</p>
+									
+									<p style="margin-top: -1em"><strong>Engine: Backend Features</strong>
+										<br>Developed the following engine features:
+										
+										<li style="margin-top: -1em">
+											<!-- -->Sharing Scenes: Improved the Resource Manager so scene files could be correctly shared between devices.</li>
+											<li>Transform Dirty Flags: Implemented the <a href="https://gameprogrammingpatterns.com/dirty-flag.html" style="color:#dd9f0c" target="_blank" rel="noopener noreferrer">dirty flag pattern</a> on the Game Object's World Transform.</li>                                             
+											<li>Resource Bases: Implemented a class that stores the data of meta files at runtime to speed up Resource Manager ops.</li>
+											<li>Render Order: Implemented a sort by Y position value to all Game Object rendering operations (meshes, particles, etc).</li>
+									</p>
+									
+									<p style="margin-top: -1em"><strong>Gameplay: Torso/Legs System</strong>
+										<br>Implemented a system that modified the player's animations depending on which direction they are moving and in which direction they are aiming taking advantage of the Animators Track System.
+									</p>
 
+									<p style="margin-top: -1em"><strong>Gameplay: Player Interactions System</strong>
+										<br>Implemented a system that managed all the possible interactions that the player can have. This system affects both the player's animations and parameters (input, invincibility, etc).
+									</p>
+									
+									<p style="margin-top: -1em"><strong>Gameplay: Player Features</strong>
+										<br>Developed the following player features:
+										
+										<li style="margin-top: -1em">
+										<!-- -->Walk: Implemented the possibility of making the player walk instead of run depending on the received input.</li>
+											<li>Move Slow: Implemented the reduction of the player's movement speed while shooting.</li>                                             
+											<li>Aiming UI: Implemented the behaviour of the Aiming UI, which appears when the player is aiming, shooting, etc.</li>
+									</p>
+
+									<p style="margin-top: -1em"><strong>Gameplay: Weapon Item Rotation and Hover</strong>
+										<br>Implemented a rotation and hover over time to all Weapon Items (Weapon Selection).
+									</p>
+									
+									<p style="margin-top: -1em"><strong>QA:</strong>
+										<br>Tested the game and reported all bugs found and participated in the bugfixing of both the engine and the game.
+									</p>
 								
 							</section>	
 								<div class="slideshow-container">
 
-								<div class="mySlides fade">
-									<img src="../images/team/pau_fiol/pau_fiol_menu.png" style="width:100%;  border-radius: 8px;">
-									<div class="captiontext">Main Menu Backdrop</div>
-								</div>
+									<div class="mySlides fade">
+										<video autoplay muted loop id="ID" style="width:100%;  border-radius: 8px;">
+											<source src="../images/team/sebas_delgado/weapon_item_rotation_and_hover.mp4" type="video/mp4">
+										</video>
+										<div class="Weapon Item Hover And Rotation">Final guns</div>
+									</div>
 
 								<div class="mySlides fade">
 									<img src="../images/team/pau_fiol/pau_fiol_turret.PNG" style="width:100%;  border-radius: 8px;">
