@@ -75,23 +75,32 @@
 								<h2>PROJECT CONTRIBUTION</h2>
 								<div style="clear:both">
 									<p style="margin-top: -1em"><strong>Render & Shader Pipeline</strong><br>
-										On-engine shader editing, transparencies, skybox and renders supported through shaders:
-											<li>Animations with dynamic buffers and bone matrices calculations through the GPU.</li>											
-											<li>Particles</li>
-											<li>UI & text initial states with Jordi Bach (2D animations & spritesheets by Santiago)</li>
+										Implemented the Shader Pipeline with GLSL previously developed in the 3D Engines subject.<br>
+										On-engine shader editing, transparencies, modify uniform variables through the inpector, skybox and renders supported through shaders:
+											<li style="margin-top: -1em">Animations with dynamic buffers and bone matrices calculations through the GPU.</li>											
+											<li>Particles with blending</li>
+											<li>UI & text initial states with Jordi Bach</li>
+											<li>Spritesheets dynamics buffers preparation (2D animations & spritesheets by Santiago Moliner)</li>
+											
 									</p>
-									<p style="margin-top: -1em"><strong>Lighting system</strong><br>
-									Handle and edit multiple lights in a scene, directional and point lights.
+									<p style="margin-top: -1em"><strong>Lighting System</strong><br>
+									Handle and edit multiple lights in a scene, directional and point lights. The system was developed to handle several lights inside a same scene can alter the ilumination of a mesh throught a single default shader.
+									Change diffuse, ambiental and specular values from any light.<br>
+									Researched reflection shader and spotlight (Not implemented). 
+										
 									</p>
-									<p style="margin-top: -1em"><strong>Cel shading and Outline</strong><br>
-									Cel shading calculations to make a cartoon look and Mesh outline with Stencil buffer.
+									<p style="margin-top: -1em"><strong>Cel Shading and Outline</strong><br>
+									Researched and iterated through a couple of milestones cel shading calculations to make a cartoon look and Mesh outlines.<br>
+									For artistic decisions and optimization purpouses the outline is done and rendered with the Stencil buffer.
 									</p>
 									<p style="margin-top: -1em"><strong>Transitions & Camera Movement</strong><br>
-									Camera shake and camera movement for cutscenes and sequences for video trailer.
-									</p>
-									<p style="margin-top: -1em"><strong>Bosses & weapon gameplay</strong><br>
+									Camera shake and camera movement done with matrices calculations for cutscenes and sequences for video trailers.<br>
+									Several transitions made with shaders, only the "Star Wars swipe" was used.
+								</p>
+									<p style="margin-top: -1em"><strong>Bosses & Weapon Gameplay</strong><br>
 									Full first boss behaviour (IG11) and improvements of the second boss (IG12) such as bombing attack and weapon adjustments.<br>
-									Iteration on the bullets origin, weapons behaviour and orientation and bullets prefabs.
+									Iteration and polish on the bullets origin, weapons behaviour and orientation and bullets prefabs.<br>
+									Spread shot calculations (bullet instanciation) for shotgun and bosses attacks.
 									</p>
 									<p style="margin-top: -1em"><strong>Initial Randomizer</strong><br>
 									Initial states of the room randomizer algorithm before transitioning to scripting.
