@@ -11,7 +11,9 @@ enum class ObjectType
 	BULLET,
 	COLLECTABLE,
 	EXPLOSIVE_BARREL,
-	ITEM
+	GROUND_ITEM,
+	WEAPON_ITEM,
+	GROGU_ABILITY
 };
 
 class Object : public Script
@@ -36,8 +38,8 @@ public:
 	virtual void OnDisable() override {}
 	virtual void OnEnable() override {}
 
-	virtual void OnPause() {}
-	virtual void OnResume() {}
+	virtual void OnPause() override { paused = true; }
+	virtual void OnResume() override { paused = false; }
 
 	virtual void OnCollisionEnter(GameObject* object) override {}
 	virtual void OnCollisionRepeat(GameObject* object) override {}
@@ -47,6 +49,10 @@ public:
 	virtual void OnTriggerExit(GameObject* object) override {}
 
 	ObjectType baseType = ObjectType::NONE;
+
+protected:
+
+	bool paused = false;
 };
 
-Object* GetObjectScript(GameObject* gameObject, ObjectType baseType);
+Object* GetObjectScript(GameObject* gameObject, ObjectType baseType = ObjectType::NONE);

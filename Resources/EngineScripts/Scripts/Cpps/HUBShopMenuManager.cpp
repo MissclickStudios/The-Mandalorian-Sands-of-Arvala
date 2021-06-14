@@ -7,6 +7,7 @@
 #include "C_UI_Button.h"
 #include "GameObject.h"
 
+#include "GameManager.h"
 #include "Player.h"
 #include "HUBShopMenuManager.h"
 
@@ -24,9 +25,10 @@ void HUBShopMenuManager::Start()
 	//if(a != nullptr)
 		//exitButton = (C_UI_Button*)a->GetComponent<C_UI_Button>();
 
-	a = App->scene->GetGameObjectByName(buyButtonName.c_str());
+
+	a = App->scene->GetGameObjectByName("Game Manager");
 	if (a != nullptr)
-		buyButton = (C_UI_Button*)a->GetComponent<C_UI_Button>();
+		gameManager = (GameManager*)a->GetScript("GameManager");
 
 	beskarTextHubShop = (C_UI_Text*)gameObject->GetComponent<C_UI_Text>();
 
@@ -35,39 +37,13 @@ void HUBShopMenuManager::Start()
 
 void HUBShopMenuManager::Update()
 {
-	/*if (exitButton != nullptr)
-	{
-		if (exitButton->GetState() == UIButtonState::RELEASED)
-		{
-			exitButton->SetIsPressed(false);
-			exitButton->SetState(UIButtonState::HOVERED);
-			gameObject->GetComponent<C_Canvas>()->SetIsActive(false);
-		}
-	}*/
-
-	if (buyButton != nullptr)
-	{
-		if (buyButton->GetState() == UIButtonState::RELEASED)
-		{
-			if (mando != nullptr)
-			{
-				Player* playerScript = (Player*)mando->GetScript("Player");
-
-				if (playerScript->hubCurrency - beskarCost >= 0)
-				{
-					playerScript->hubCurrency -= beskarCost;
-				}
-			}
-		}
-	}
-
 	if (beskarTextHubShop != nullptr)
 	{
 		if (mando != nullptr)
 		{
 			Player* playerScript = (Player*)mando->GetScript("Player");
 
-			beskarTextHubShop->SetText(std::to_string(playerScript->hubCurrency).c_str());
+			beskarTextHubShop->SetText(std::to_string(playerScript->beskar).c_str());
 		}
 	}
 }

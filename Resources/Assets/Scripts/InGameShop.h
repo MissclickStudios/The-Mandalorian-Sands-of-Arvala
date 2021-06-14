@@ -20,11 +20,16 @@ public:
 
 	std::string playerName = "Mandalorian";
 	std::string gameManagerName = "Game Manager";
+	int rollAttempts = 100;
+
 	std::vector<std::string> itemNames;
+	std::string stimPackName = "StimPack";
 
 private:
 
 	GameManager* gameManager = nullptr;
+
+	int counter = 0;
 };
 
 SCRIPTS_FUNCTION InGameShop* CreateInGameShop();

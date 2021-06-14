@@ -9,6 +9,12 @@
 #include "Blaster.h"
 
 #include "MathGeoLib/include/Math/float2.h"
+#include <string>
+
+class GameManager;
+class C_Canvas;
+class C_UI_Image;
+class C_AudioSource;
 
 enum class IG11State
 {
@@ -35,6 +41,7 @@ public:
 	IG11();
 	virtual ~IG11();
 
+	void Start() override;
 	void SetUp() override;
 	void Behavior() override;
 	void CleanUp() override;
@@ -43,6 +50,10 @@ public:
 	void EntityResume() override;
 
 	void OnCollisionEnter(GameObject* object) override;
+	void TakeDamage(float damage)override;
+
+	// Effects
+	void BossPiercing(Effect* effect);
 
 	// Movement
 	std::string playerName = "Mando testbuild";
@@ -55,7 +66,7 @@ public:
 	// Flee
 	float fleeDistance = 0.0f;
 
-
+	AnimationInfo talkAnimation = { "Talk" };
 	AnimationInfo walkAnimation = { "Run" };
 	AnimationInfo runAnimation = { "Run" };
 	AnimationInfo fleeAnimation = { "Run" };
@@ -64,6 +75,7 @@ public:
 	AnimationInfo changeAnimation = { "Change" };
 	AnimationInfo onGuardAnimation = { "OnGuard" };
 	AnimationInfo specialAnimation = { "SpecialAttack" };
+	AnimationInfo doubleSpecialAnimation = { "DoubleSpecial" };
 
 	// Attack
 	float attackDistance = 0.0f;
@@ -83,6 +95,15 @@ public:
 
 	std::string rightHandName;
 	std::string leftHandName;
+
+	float minCredits = 0.f;
+	float maxCredits = 0.f;
+
+	int beskarValue = 2;
+
+	GameObject* healthBarCanvasObject = nullptr;
+	std::string lifeBarImageStr = "BossLife";
+	std::string bossIconStr = "BossIcon";
 
 private:
 
@@ -133,6 +154,21 @@ private:
 	GameObject* sniperGameObject = nullptr;
 	Weapon* sniperWeapon = nullptr;
 
+	//Hands
+	GameObject* handLeft = nullptr;
+	GameObject* handRight = nullptr;
+
+	//float3 alternativeRight;
+	//float3 alternativeLeft;
+	//Game manager
+	GameManager* gameManager = nullptr;
+
+	C_Canvas* healthBarCanvas = nullptr;
+	C_UI_Image* healthBarImage = nullptr;
+	float healthMaxW = 0.0f;
+
+	//Auido
+	C_AudioSource* deathAudio = nullptr;
 };
 
 SCRIPTS_FUNCTION IG11* CreateIG11();

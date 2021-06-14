@@ -1,4 +1,5 @@
 #include "Blurrg.h"
+#include "Random.h"
 
 #include "Application.h"
 #include "M_Scene.h"
@@ -7,6 +8,8 @@
 #include "C_Transform.h"
 #include "C_RigidBody.h"
 #include "C_AudioSource.h"
+#include "C_NavMeshAgent.h"
+#include "C_ParticleSystem.h"
 
 #include "Player.h"
 
@@ -59,6 +62,9 @@ Blurrg* CreateBlurrg()
 	// Rest
 	INSPECTOR_DRAGABLE_FLOAT(script->restDuration);
 
+	INSPECTOR_SLIDER_INT(script->minCredits, 0, 1000);
+	INSPECTOR_SLIDER_INT(script->maxCredits, 0, 1000);
+
 	//// Animations ---
 	//// Movement
 	//INSPECTOR_STRING(script->walkAnimation.name);
@@ -93,27 +99,44 @@ void Blurrg::SetUp()
 
 	player = App->scene->GetGameObjectByName(playerName.c_str());
 
-	for (uint i = 0; i < gameObject->components.size(); ++i)
-	{
-		if (gameObject->components[i]->GetType() == ComponentType::AUDIOSOURCE)
-		{
-			C_AudioSource* source = (C_AudioSource*)gameObject->components[i];
-			std::string name = source->GetEventName();
+	agent = gameObject->GetComponent<C_NavMeshAgent>();
 
-			if (name == "blurrg_walking")
-				walkAudio = source;
-			else if (name == "blurrg_growl")
-				chargeAudio = source;
-			else if (name == "blurrg_hit")
-				damageAudio = source;
-			else if (name == "blurrg_death")
-				deathAudio = source;
-		}
+	if (agent != nullptr)
+	{
+		agent->origin = gameObject->GetComponent<C_Transform>()->GetWorldPosition();
+		agent->velocity = ChaseSpeed();
 	}
+
+	//Audios
+	damageAudio = new C_AudioSource(gameObject);
+	deathAudio = new C_AudioSource(gameObject);
+	chargeAudio = new C_AudioSource(gameObject);
+	walkAudio = new C_AudioSource(gameObject);
+	if (damageAudio != nullptr)
+		damageAudio->SetEvent("blurrg_damaged");
+	if (deathAudio != nullptr)
+		deathAudio->SetEvent("blurrg_death");
+	if (chargeAudio != nullptr)
+		chargeAudio->SetEvent("blurrg_charge");
+
+	// Particles & SFX
+	hitParticles = gameObject->GetComponent<C_ParticleSystem>();
+	(hitParticles != nullptr) ? hitParticles->StopSpawn() : LOG("[ERROR] Blurg Script: Could not find { HIT } Particle System!");
+
+	GameObject* chargeParticlesGO = gameObject->FindChild("Charge");
+	chargeParticles = (chargeParticlesGO != nullptr) ? chargeParticlesGO->GetComponent<C_ParticleSystem>() : nullptr;
+	
+	(chargeParticles != nullptr) ? chargeParticles->StopSpawn() : LOG("[ERROR] Blurg Script: Could not find { CHARGE } Particle System!");
 }
 
 void Blurrg::Behavior()
 {
+	if (dieAfterStun == 2)
+	{
+		dieAfterStun = 3;
+		state = BlurrgState::DEAD_IN;
+		deathTimer.Resume();
+	}
 	if (state != BlurrgState::DEAD)
 	{
 		if (health <= 0.0f)
@@ -158,8 +181,8 @@ void Blurrg::Behavior()
 				chargeAudio->PlayFx(chargeAudio->GetEventId());
 
 			currentAnimation = &chargeAnimation;
-			if (rigidBody)
-				rigidBody->Set2DVelocity(float2::zero);
+			if (agent != nullptr)
+				agent->StopAndCancelDestination();
 			chargeTimer.Start();
 			state = BlurrgState::CHARGE;
 
@@ -172,8 +195,13 @@ void Blurrg::Behavior()
 			break;
 		case BlurrgState::DASH_IN:
 			currentAnimation = &dashAnimation;
+			if (agent != nullptr)
+				agent->StopAndCancelDestination();
 			dashTimer.Start();
 			state = BlurrgState::DASH;
+
+			if (chargeParticles != nullptr)
+				chargeParticles->ResumeSpawn();
 
 		case BlurrgState::DASH:
 			Dash();
@@ -182,12 +210,15 @@ void Blurrg::Behavior()
 				dashTimer.Stop();
 				dashCooldownTimer.Start();
 				state = BlurrgState::REST_IN;
+				
+				if (chargeParticles != nullptr)
+					chargeParticles->StopSpawn();
 			}
 			break;
 		case BlurrgState::REST_IN:
 			currentAnimation = &restAnimation;
-			if (rigidBody)
-				rigidBody->Set2DVelocity(float2::zero);
+			if (agent != nullptr)
+				agent->StopAndCancelDestination();
 			restTimer.Start();
 			state = BlurrgState::REST;
 
@@ -199,7 +230,7 @@ void Blurrg::Behavior()
 			}
 			break;
 		case BlurrgState::DEAD_IN:
-			if (deathAudio)
+			if (deathAudio != nullptr)
 				deathAudio->PlayFx(deathAudio->GetEventId());
 
 			currentAnimation = &deathAnimation;
@@ -208,12 +239,15 @@ void Blurrg::Behavior()
 			if (player)
 			{
 				Player* playerScript = (Player*)player->GetScript("Player");
-				playerScript->currency += 50;
+
+				playerScript->GiveCredits(Random::LCG::GetBoundedRandomUint(minCredits, maxCredits));
 			}
 			deathTimer.Start();
 			state = BlurrgState::DEAD;
 
 		case BlurrgState::DEAD:
+			if (dieAfterStun > 1)
+				deathTimer.Resume();
 			if (deathTimer.ReadSec() >= deathDuration)
 				Deactivate();
 			break;
@@ -222,6 +256,15 @@ void Blurrg::Behavior()
 
 void Blurrg::CleanUp()
 {
+
+	if (damageAudio != nullptr)
+		delete damageAudio;
+	if (deathAudio != nullptr)
+		delete deathAudio;
+	if (chargeAudio != nullptr)
+		delete chargeAudio;
+	if (walkAudio != nullptr)
+		delete walkAudio;
 }
 
 void Blurrg::OnCollisionEnter(GameObject* object)
@@ -247,6 +290,9 @@ void Blurrg::EntityPause()
 	dashTimer.Pause();
 	dashCooldownTimer.Pause();
 	restTimer.Pause();
+
+	if (agent != nullptr)
+		agent->CancelDestination();
 }
 
 void Blurrg::EntityResume()
@@ -267,6 +313,7 @@ void Blurrg::DistanceToPlayer()
 	playerPosition.y = player->transform->GetWorldPosition().z;
 	position.x = gameObject->transform->GetWorldPosition().x;
 	position.y = gameObject->transform->GetWorldPosition().z;
+
 	moveDirection = playerPosition - position;
 
 	distance = moveDirection.Length();
@@ -285,14 +332,21 @@ void Blurrg::LookAtPlayer()
 
 void Blurrg::Wander()
 {
-	if (rigidBody)
-		rigidBody->Set2DVelocity(float2::zero);
+	if (agent == nullptr)
+		return;
+	
+	agent->StopAndCancelDestination();
 }
 
 void Blurrg::Chase()
 {
-	if (rigidBody)
-		rigidBody->Set2DVelocity(moveDirection * ChaseSpeed());
+	if (agent == nullptr)
+		return;
+
+	agent->velocity = ChaseSpeed();
+	agent->SetDestination(player->transform->GetWorldPosition());
+
+	walkAnimation.duration = 3.9f / speedModifier;
 }
 
 void Blurrg::Dash()
@@ -302,6 +356,9 @@ void Blurrg::Dash()
 	if (decceleration > 1.0f)
 		decceleration = 1.0f;
 
-	if (rigidBody)
-		rigidBody->Set2DVelocity(moveDirection * DashSpeed() * decceleration);
+	if (agent != nullptr) {
+		agent->velocity = DashSpeed() * decceleration;
+		agent->SetDestination(agent->destinationPoint);
+	}
+
 }

@@ -8,6 +8,7 @@
 #include "MathGeoLib/include/Math/float2.h"
 
 class C_AudioSource;
+class C_ParticleSystem;
 
 enum class BlurrgState
 {
@@ -77,6 +78,13 @@ public:
 	// Audio
 	C_AudioSource* chargeAudio = nullptr;
 	C_AudioSource* deathAudio = nullptr;
+
+	int minCredits = 0.f;
+	int maxCredits = 0.f;
+
+	// Particles & SFX
+	C_ParticleSystem* hitParticles;
+	C_ParticleSystem* chargeParticles;
 
 private:
 

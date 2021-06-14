@@ -37,6 +37,12 @@
     <Filter Include="Objects\Environment">
       <UniqueIdentifier>{ce78a613-7a47-43df-b9b9-2aff5971c561}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DialogSystem">
+      <UniqueIdentifier>{d579ea73-ec69-4fa9-bdbb-85fe835a91e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene managers">
+      <UniqueIdentifier>{89ab7a68-350f-4795-9795-805959ba5132}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scripts\Headers\ScriptMacros.h">
@@ -129,9 +135,6 @@
     <ClInclude Include="..\Assets\Scripts\DebugMenuManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Assets\Scripts\Grogu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Assets\Scripts\DarkTrooper.h">
       <Filter>Objects\Entities</Filter>
     </ClInclude>
@@ -158,6 +161,51 @@
     </ClInclude>
     <ClInclude Include="Scripts\Helpers\Items.h">
       <Filter>Objects\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\DialogManager.h">
+      <Filter>DialogSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\Blocky.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\HUBGate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\ItemMenuManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\MandoMainMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\PlayerItemMenuManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\QuestManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\WeaponItem.h">
+      <Filter>Objects\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\IG12.h">
+      <Filter>Objects\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\Grogu.h">
+      <Filter>Objects\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\Chest.h">
+      <Filter>Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\GroguPush.h">
+      <Filter>Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\PlayIdleNPC.h">
+      <Filter>Objects\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\CreditsSceneManager.h">
+      <Filter>Scene managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Assets\Scripts\BarrelExplosion.h">
+      <Filter>Objects\Environment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,9 +287,6 @@
     <ClCompile Include="Scripts\Cpps\DebugMenuManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Cpps\Grogu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Scripts\Cpps\DarkTrooper.cpp">
       <Filter>Objects\Entities</Filter>
     </ClCompile>
@@ -265,6 +310,54 @@
     </ClCompile>
     <ClCompile Include="Scripts\Helpers\Items.cpp">
       <Filter>Objects\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\DialogManager.cpp">
+      <Filter>DialogSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\WeaponItem.cpp">
+      <Filter>Objects\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\IG12.cpp">
+      <Filter>Objects\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\Grogu.cpp">
+      <Filter>Objects\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\Chest.cpp">
+      <Filter>Objects\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\GroguPush.cpp">
+      <Filter>Objects\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\MoistureVaporator.cpp">
+      <Filter>Objects\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\PlayIdleNPC.cpp">
+      <Filter>Objects\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\CreditsSceneManager.cpp">
+      <Filter>Scene managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\Blocky.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\HUBGate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\ItemMenuManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\MandoMainMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\PlayerItemMenuManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\QuestManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Cpps\BarrelExplosion.cpp">
+      <Filter>Objects\Environment</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

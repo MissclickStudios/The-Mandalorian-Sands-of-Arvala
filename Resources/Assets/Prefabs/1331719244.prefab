@@ -1,6 +1,7 @@
 {
-    "UID": 836262258,
-    "ParentUID": 694363612,
+    "ModTime": 1622996965,
+    "UID": 910066409,
+    "ParentUID": 296213747,
     "PrefabID": 1331719244,
     "IsPrefab": true,
     "Name": "Vaporator",
@@ -9,13 +10,17 @@
     "IsSceneRoot": false,
     "MaintainThroughScenes": false,
     "ShowBoundingBoxes": true,
+    "NavigationInfo": {
+        "isNavigable": false,
+        "navigationArea": 0
+    },
     "Components": [
         {
             "Type": 1,
             "LocalPosition": [
-                192.60588073730469,
-                -1.9181532859802246,
-                87.253082275390625
+                -16.678066253662109,
+                2.0317955017089844,
+                63.0465087890625
             ],
             "LocalRotation": [
                 0,
@@ -24,9 +29,9 @@
                 1
             ],
             "LocalScale": [
-                0.24908804893493652,
-                0.24908804893493652,
-                0.24908804893493652
+                0.5031578540802002,
+                0.5031578540802002,
+                0.5031578540802002
             ]
         },
         {
@@ -38,26 +43,204 @@
             "Type": 9,
             "Is Trigger": false,
             "Show Collider": true,
-            "Size X": 3,
-            "Size Y": 20,
-            "Size Z": 3,
+            "Size X": 6,
+            "Size Y": 40,
+            "Size Z": 6,
             "Center X": 0,
             "Center Y": 0,
             "Center Z": 0
+        },
+        {
+            "Type": 24,
+            "ResourceUID": 128210617,
+            "AssetsPath": "Assets\/Scripts\/\/ExplosiveBarrel.h",
+            "DataName": "ExplosiveBarrel",
+            "HasInspector": true,
+            "InspectorVariables": [
+                {
+                    "Type": 2,
+                    "Name": "particleEmitttingTime",
+                    "float": 1
+                },
+                {
+                    "Type": 5,
+                    "Name": "explosionName",
+                    "string": "ElectrocuteObject"
+                },
+                {
+                    "Type": 5,
+                    "Name": "explosionAudio",
+                    "string": "item_barrel_explosion"
+                },
+                {
+                    "Type": 5,
+                    "Name": "markerName",
+                    "string": ""
+                },
+                {
+                    "Type": 5,
+                    "Name": "particleName",
+                    "string": "Idle"
+                },
+                {
+                    "Type": 1,
+                    "Name": "reload",
+                    "bool": true
+                },
+                {
+                    "Type": 2,
+                    "Name": "cooldown",
+                    "float": 5
+                }
+            ]
+        },
+        {
+            "Type": 12,
+            "particleSystemUID": 146294263,
+            "particleSystemAssetsPath": "Assets\/ParticleSystems\/VaporatorStunParticles.particles",
+            "stopSpawn": false,
+            "tempDelete": false,
+            "previewEnabled": false,
+            "stopAndDeleteCheck": false
         }
     ],
     "Children": [
         {
-            "UID": 1598942527,
-            "ParentUID": 836262258,
+            "UID": 125763502,
+            "ParentUID": 910066409,
             "PrefabID": 1331719244,
             "IsPrefab": true,
-            "Name": "Cylinder001",
+            "Name": "Marker",
+            "IsActive": false,
+            "IsStatic": false,
+            "IsSceneRoot": false,
+            "MaintainThroughScenes": false,
+            "ShowBoundingBoxes": false,
+            "NavigationInfo": {
+                "isNavigable": false,
+                "navigationArea": 0
+            },
+            "Components": [
+                {
+                    "Type": 1,
+                    "LocalPosition": [
+                        0,
+                        7.7035970687866211,
+                        0
+                    ],
+                    "LocalRotation": [
+                        0,
+                        1,
+                        0,
+                        2.6740158887150756e-07
+                    ],
+                    "LocalScale": [
+                        110,
+                        1,
+                        110
+                    ]
+                }
+            ],
+            "Children": [
+                {
+                    "UID": 1582245294,
+                    "ParentUID": 125763502,
+                    "PrefabID": 1331719244,
+                    "IsPrefab": true,
+                    "Name": "Plane001",
+                    "IsActive": false,
+                    "IsStatic": false,
+                    "IsSceneRoot": false,
+                    "MaintainThroughScenes": false,
+                    "ShowBoundingBoxes": false,
+                    "NavigationInfo": {
+                        "isNavigable": false,
+                        "navigationArea": 0
+                    },
+                    "Components": [
+                        {
+                            "Type": 1,
+                            "LocalPosition": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "LocalRotation": [
+                                -0.70710676908493042,
+                                0,
+                                0,
+                                0.70710676908493042
+                            ],
+                            "LocalScale": [
+                                1,
+                                1,
+                                1
+                            ]
+                        },
+                        {
+                            "Type": 2,
+                            "UID": 1016193486,
+                            "Name": "Plane001.nemesh",
+                            "Path": "Library\/Meshes\/1016193486.nemesh",
+                            "File": "1016193486.nemesh",
+                            "ShowWireframe": false,
+                            "ShowBoundingBox": false,
+                            "Outline": false,
+                            "OutlineThickness": 0,
+                            "OutlineColor": [
+                                0,
+                                0,
+                                0,
+                                1
+                            ]
+                        },
+                        {
+                            "Type": 3,
+                            "Material": {
+                                "UID": 1705422038,
+                                "Color": [
+                                    0.70588237047195435,
+                                    0.70588237047195435,
+                                    0.70588237047195435,
+                                    1
+                                ],
+                                "Name": "Plane001.nemat",
+                                "Path": "Library\/Materials\/1705422038.nemat",
+                                "File": "1705422038.nemat"
+                            },
+                            "Texture": {
+                                "AssetsPath": "Assets\/Textures\/Mando\/circle ui.png",
+                                "AssetsName": "circle ui.png",
+                                "LibaryPath": "Library\/Textures\/205387896.netex",
+                                "LibraryFile": "205387896.netex"
+                            },
+                            "Shader": {
+                                "AssetsPath": "Assets\/Shaders\/DefaultShader.shader",
+                                "AssetsName": "DefaultShader.shader",
+                                "LibaryPath": "Library\/Shaders\/800223282.neshader",
+                                "LibraryFile": "800223282.neshader"
+                            }
+                        }
+                    ],
+                    "Children": []
+                }
+            ]
+        },
+        {
+            "UID": 317510356,
+            "ParentUID": 910066409,
+            "PrefabID": 1331719244,
+            "IsPrefab": true,
+            "Name": "VaporatorMesh",
             "IsActive": true,
             "IsStatic": false,
             "IsSceneRoot": false,
             "MaintainThroughScenes": false,
             "ShowBoundingBoxes": false,
+            "NavigationInfo": {
+                "isNavigable": false,
+                "navigationArea": 0
+            },
             "Components": [
                 {
                     "Type": 1,
@@ -110,10 +293,10 @@
                         "File": "197114366.nemat"
                     },
                     "Texture": {
-                        "AssetsPath": "Assets\/Textures\/\/Blockouts\/Level1\/moisture_arvala.png",
-                        "AssetsName": "moisture_arvala.png",
-                        "LibaryPath": "Library\/Textures\/1390400254.netex",
-                        "LibraryFile": "1390400254.netex"
+                        "AssetsPath": "Assets\/Textures\/\/Blockouts\/Props&Textures_v02\/moisture_texture_v02.png",
+                        "AssetsName": "moisture_texture_v02.png",
+                        "LibaryPath": "Library\/Textures\/166995452.netex",
+                        "LibraryFile": "166995452.netex"
                     },
                     "Shader": {
                         "AssetsPath": "Assets\/Shaders\/DefaultShader.shader",
@@ -126,8 +309,8 @@
             "Children": []
         },
         {
-            "UID": 1923702076,
-            "ParentUID": 836262258,
+            "UID": 437952411,
+            "ParentUID": 910066409,
             "PrefabID": 1331719244,
             "IsPrefab": true,
             "Name": "Particles",
@@ -136,6 +319,10 @@
             "IsSceneRoot": false,
             "MaintainThroughScenes": false,
             "ShowBoundingBoxes": false,
+            "NavigationInfo": {
+                "isNavigable": false,
+                "navigationArea": 0
+            },
             "Components": [
                 {
                     "Type": 1,
@@ -159,51 +346,8 @@
             ],
             "Children": [
                 {
-                    "UID": 689422033,
-                    "ParentUID": 1923702076,
-                    "PrefabID": 1331719244,
-                    "IsPrefab": true,
-                    "Name": "Second Idle",
-                    "IsActive": true,
-                    "IsStatic": false,
-                    "IsSceneRoot": false,
-                    "MaintainThroughScenes": false,
-                    "ShowBoundingBoxes": false,
-                    "Components": [
-                        {
-                            "Type": 1,
-                            "LocalPosition": [
-                                1.12939453125,
-                                23.200786590576172,
-                                2.432281494140625
-                            ],
-                            "LocalRotation": [
-                                0.7071068286895752,
-                                0,
-                                0,
-                                0.70710670948028564
-                            ],
-                            "LocalScale": [
-                                1,
-                                1.0000002384185791,
-                                1.0000002384185791
-                            ]
-                        },
-                        {
-                            "Type": 12,
-                            "particleSystemUID": 1851511683,
-                            "particleSystemAssetsPath": "Assets\/ParticleSystems\/VAPORATOR2.particles",
-                            "stopSpawn": false,
-                            "tempDelete": false,
-                            "previewEnabled": true,
-                            "stopAndDeleteCheck": false
-                        }
-                    ],
-                    "Children": []
-                },
-                {
-                    "UID": 1886553403,
-                    "ParentUID": 1923702076,
+                    "UID": 1309056185,
+                    "ParentUID": 437952411,
                     "PrefabID": 1331719244,
                     "IsPrefab": true,
                     "Name": "Idle",
@@ -212,13 +356,17 @@
                     "IsSceneRoot": false,
                     "MaintainThroughScenes": false,
                     "ShowBoundingBoxes": false,
+                    "NavigationInfo": {
+                        "isNavigable": false,
+                        "navigationArea": 0
+                    },
                     "Components": [
                         {
                             "Type": 1,
                             "LocalPosition": [
-                                -7.8385009765625,
+                                4.4113998413085938,
                                 15.298847198486328,
-                                -5.399505615234375
+                                -3.6357574462890625
                             ],
                             "LocalRotation": [
                                 0,
@@ -245,6 +393,84 @@
                     "Children": []
                 }
             ]
+        },
+        {
+            "UID": 2108495281,
+            "ParentUID": 910066409,
+            "PrefabID": 1331719244,
+            "IsPrefab": true,
+            "Name": "ElectrocuteObject",
+            "IsActive": true,
+            "IsStatic": false,
+            "IsSceneRoot": false,
+            "MaintainThroughScenes": false,
+            "ShowBoundingBoxes": false,
+            "NavigationInfo": {
+                "isNavigable": false,
+                "navigationArea": 0
+            },
+            "Components": [
+                {
+                    "Type": 1,
+                    "LocalPosition": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "LocalRotation": [
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "LocalScale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                {
+                    "Type": 8,
+                    "Is Static": true,
+                    "Filter": " void"
+                },
+                {
+                    "Type": 9,
+                    "Is Trigger": true,
+                    "Show Collider": true,
+                    "Size X": 40,
+                    "Size Y": 30,
+                    "Size Z": 40,
+                    "Center X": 0,
+                    "Center Y": 5,
+                    "Center Z": 0
+                },
+                {
+                    "Type": 24,
+                    "ResourceUID": 69873825,
+                    "AssetsPath": "Assets\/Scripts\/\/BarrelExplosion.h",
+                    "DataName": "BarrelExplosion",
+                    "HasInspector": true,
+                    "InspectorVariables": [
+                        {
+                            "Type": 0,
+                            "Name": "damage",
+                            "int": 25
+                        },
+                        {
+                            "Type": 2,
+                            "Name": "power",
+                            "float": 2
+                        },
+                        {
+                            "Type": 1,
+                            "Name": "stun",
+                            "bool": true
+                        }
+                    ]
+                }
+            ],
+            "Children": []
         }
     ]
 } 

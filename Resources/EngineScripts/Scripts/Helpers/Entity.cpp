@@ -1,5 +1,6 @@
 #include "Entity.h"
-
+#include "Application.h"
+#include "M_Scene.h"
 #include "GameObject.h"
 #include "C_Transform.h"
 #include "C_RigidBody.h"
@@ -7,6 +8,7 @@
 #include "C_Material.h"
 #include "C_AudioSource.h"
 #include "C_Mesh.h"
+#include "C_NavMeshAgent.h"
 
 #include "AnimatorTrack.h"
 
@@ -17,8 +19,9 @@
 
 #include "ScriptMacros.h"
 
+#include "Player.h"
+
 #include "MathGeoLib/include/Math/float3.h"
-#include "CoreDllHelpers.h"
 
 Entity::Entity() : Object()
 {
@@ -33,7 +36,6 @@ Entity::~Entity()
 		delete *effects.begin();
 		effects.erase(effects.begin());
 	}
-	CoreCrossDllHelpers::CoreReleaseString(handName);
 }
 
 void Entity::Awake()
@@ -43,6 +45,13 @@ void Entity::Awake()
 		rigidBody = nullptr;
 	animator = gameObject->GetComponent<C_Animator>();
 	currentAnimation = &idleAnimation;
+
+	if (type == EntityType::TURRET)
+	{
+		GameObject* turretHead = gameObject->FindChild("HeadMesh");
+		if(turretHead)
+			secondaryMat = turretHead->GetComponent<C_Material>();
+	}
 
 	for (uint i = 0; i < gameObject->childs.size(); ++i)
 	{
@@ -56,6 +65,7 @@ void Entity::Awake()
 		{
 			mesh = gameObject->childs[i]->GetComponent<C_Mesh>();
 			material = gameObject->childs[i]->GetComponent<C_Material>();
+			
 		}
 		else if (name == "Particles")
 		{
@@ -87,8 +97,14 @@ void Entity::Start()
 
 void Entity::PreUpdate()
 {
+	if (paused)
+		return;
+
 	if (material != nullptr)
+	{
+		if(secondaryMat) secondaryMat->SetTakeDamage(false);
 		material->SetTakeDamage(false);
+	}
 
 	// Set modifiers back to the default state
 	maxHealthModifier = 0.0f;
@@ -97,46 +113,43 @@ void Entity::PreUpdate()
 	damageModifier = DEFAULT_MODIFIER;
 	defenseModifier = DEFAULT_MODIFIER;
 	cooldownModifier = DEFAULT_MODIFIER;
+	priceModifier = DEFAULT_MODIFIER;
 	entityState = EntityState::NONE;
-
+	if (agent != nullptr)
+		agent->velocity = Speed();
+	
 	// Loop through the Effects and call the respective functions
 	for (uint i = 0; i < effects.size(); ++i)
 	{
-		if (effects[i]->IsActive()) // Check if the effect duration is ongoing
+		if (effects[i]->IsActive())															// Check if the effect duration is ongoing
 		{
-			switch (effects[i]->Type()) // Call the corresponding function
+			switch (effects[i]->Type())														// Call the corresponding function
 			{
-			case EffectType::FROZEN:
-				Frozen();
-				break;
-			case EffectType::HEAL:
-				Heal(effects[i]);
-				break;
-			case EffectType::MAX_HEALTH_MODIFY:
-				MaxHealthModify(effects[i]);
-				break;
-			case EffectType::SPEED_MODIFY:
-				SpeedModify(effects[i]);
-				break;
-			case EffectType::STUN:
-				Stun(effects[i]);
-				break;
-			case EffectType::KNOCKBACK:
-				KnockBack(effects[i]);
+			case EffectType::FROZEN:			{ Frozen(effects[i]); }				break;
+			case EffectType::HEAL:			    { Heal(effects[i]); }				break;
+			case EffectType::MAX_HEALTH_MODIFY: { MaxHealthModify(effects[i]); }	break;
+			case EffectType::SPEED_MODIFY:		{ SpeedModify(effects[i]); }		break;
+			case EffectType::STUN:				{ Stun(effects[i]); }				break;
+			case EffectType::KNOCKBACK:			{ KnockBack(effects[i]); }			break;
+			case EffectType::ELECTROCUTE:		{ Electrocute(effects[i]); }		break;
+			case EffectType::BOSS_PIERCING:		{ BossPiercing(effects[i]); }		break;
+			case EffectType::PRICE_MODIFY:		{ PriceModify(effects[i]); }		break;
+			case EffectType::COOLDOWN_MODIFY:
+				CooldownModify(effects[i]); // oops
 				break;
 			}
 		}
-		else // Delete the effect if it ran out
+		else																				// Delete the effect if it ran out
 		{
-			--effectCounters[(uint)effects[i]->Type()]; // Substract one to the counter of this effect
+			--effectCounters[(uint)effects[i]->Type()];										// Substract one to the counter of this effect
 
 			delete effects[i];
 			effects.erase(effects.begin() + i);
 
-			if (i <= 0) // Avoid relying on uints turning a high number to exit the loop when there are no more effects
+			if (i <= 0)																		// Avoid relying on uints turning a high number to exit the loop when there are no more effects
 				break;
-			else
-				--i;
+
+			--i;
 		}
 	}
 
@@ -144,69 +157,112 @@ void Entity::PreUpdate()
 	{
 		material->SetAlternateColour(Color(1, 0, 0, 1));
 		material->SetTakeDamage(true);
+		if (secondaryMat)
+		{
+			secondaryMat->SetAlternateColour(Color(1, 0, 0, 1));
+			secondaryMat->SetTakeDamage(true);
+		}
+
 		if (hitTimer.ReadSec() > hitDuration)
 		{
 			hitTimer.Stop();
 			if (GetParticles("Hit") != nullptr)
 				GetParticles("Hit")->StopSpawn();
 		}
+
+		if ((type == EntityType::TURRET || type == EntityType::IG11 || type == EntityType::IG12) && rigidBody != nullptr)
+			rigidBody->StopInertia();
 	}
 }
 
 void Entity::Update()
 {
+	if (paused)
+		return;
+
+	if (gameObject->transform->GetLocalPosition().y < -1000)
+		health = 0.0f;
+
+	if (health <= 0.0f)
+		if (type == EntityType::DARK_TROOPER || type == EntityType::TROOPER || type == EntityType::PLAYER)
+			if (entityState != EntityState::NONE)
+				deathTimer.Pause();
+			else
+				if (dieAfterStun == 0 || dieAfterStun == 1)
+					++dieAfterStun;
+
 	switch (entityState)
 	{
-	case EntityState::NONE:
-		Behavior();
-		break;
-	case EntityState::STUNED:
-		currentAnimation = &stunAnimation;
-		break;
+	case EntityState::NONE:			{ Behavior(); }									break;
+	case EntityState::STUNED:		{ currentAnimation = &stunAnimation; }			break;
+	case EntityState::KNOCKEDBACK:	{ currentAnimation = &knockbackAnimation; }		break;
+	case EntityState::ELECTROCUTED: { currentAnimation = &electrocutedAnimation; }	break;
 	}
 }
 
 void Entity::PostUpdate()
 {
+	if (paused)
+		return;
+
 	if (animator != nullptr && currentAnimation != nullptr )
-	{
-		AnimatorClip* clip = animator->GetTrack("Preview").GetCurrentClip();
+	{	
+		AnimatorTrack* preview = animator->GetTrackAsPtr("Preview");
+		
+		if (preview == nullptr)
+			return;
 
-		if (clip == nullptr || clip->GetName() != currentAnimation->name)										// If no clip playing or animation/clip changed
-			animator->PlayClip(currentAnimation->track.c_str(), currentAnimation->name.c_str(), currentAnimation->blendTime);
-
-		/*if (clip != nullptr)
+		if ((type != EntityType::PLAYER))
 		{
-			if (clip->GetName() != currentAnimation->name)	// If the animtion changed play the wanted clip
+			AnimatorClip* clip = preview->GetCurrentClip();
+
+			if (clip == nullptr || clip->GetName() != currentAnimation->name)										// If no clip playing or animation/clip changed
 			{
-				animator->PlayClip("Preview", currentAnimation->name.c_str(), currentAnimation->blendTime);
+				if (currentAnimation->duration > 0.0f && clip != nullptr)
+					clip->SetSpeed(clip->GetDurationInSeconds() / currentAnimation->duration);
+
+				animator->PlayClip(currentAnimation->track.c_str(), currentAnimation->name.c_str(), currentAnimation->blendTime);
 			}
 		}
 		else
 		{
-			animator->PlayClip("Preview", currentAnimation->name.c_str(), currentAnimation->blendTime); // If there is no clip playing play the current animation
-		}*/
+			((Player*)this)->AnimatePlayer();
+		}
 	}
 }
 
 void Entity::OnPause()
 {
+	paused = true;
 	deathTimer.Pause();
 	stepTimer.Pause();
 
 	if (rigidBody != nullptr)
 		rigidBody->SetIsActive(false);
 
+	for (uint i = 0; i < effects.size(); ++i)
+		effects[i]->Pause();
+
+	if (animator != nullptr)
+		animator->Pause(true);
+
 	EntityPause();
 }
 
 void Entity::OnResume()
 {
+	paused = false;
 	deathTimer.Resume();
 	stepTimer.Resume();
 
 	if (rigidBody != nullptr)
 		rigidBody->SetIsActive(true);
+
+	for (uint i = 0; i < effects.size(); ++i)
+		effects[i]->Resume();
+
+	if (animator != nullptr)
+		animator->Play(true);
 
 	EntityResume();
 }
@@ -236,19 +292,19 @@ void Entity::GiveHeal(float amount)
 		health = MaxHealth();
 }
 
-Effect* Entity::AddEffect(EffectType type, float duration, bool permanent, void* data)
+Effect* Entity::AddEffect(EffectType type, float duration, bool permanent, float power, float chance, float3 direction, bool start)
 {
-	// TODO: System to add a max stack to each effect so that more than one can exist at once
 	if (effectCounters[(uint)type]) // Check that this effect is not already on the entity
 	{
-		if (data != nullptr)
-			delete data;
-
-		return nullptr;
+		if (type == EffectType::KNOCKBACK || type == EffectType::STUN)
+			return nullptr;
+		for (uint i = 0; i < effects.size(); ++i) // If it does erase the older one
+			if (effects[i]->Type() == type)
+				effects[i]->End();
 	}
 	
-	Effect* output = new Effect(type, duration, permanent, data);
-	effects.emplace_back(output); // I use emplace instead of push to avoid unnecessary copies
+	Effect* output = new Effect(type, duration, permanent, power, chance, direction, start);
+	effects.emplace_back(output);
 	++effectCounters[(uint)type]; // Add one to the counter of this effect
 
 	return output;
@@ -270,15 +326,22 @@ bool Entity::IsGrounded()
 	return false;
 }
 
-void Entity::Frozen()
+void Entity::Frozen(Effect* effect)
 {
-	speedModifier /= 2.5;
-	attackSpeedModifier /= 2.5;
+	speedModifier *= effect->Power();
+	if (agent != nullptr)
+		agent->velocity = Speed();
+	attackSpeedModifier *= effect->Power();
 
 	if (material != nullptr)
 	{
 		material->SetAlternateColour(Color(0, 1, 1, 1));
 		material->SetTakeDamage(true);
+		if (secondaryMat)
+		{
+			secondaryMat->SetAlternateColour(Color(1, 0, 0, 1));
+			secondaryMat->SetTakeDamage(true);
+		}
 	}
 }
 
@@ -295,38 +358,101 @@ void Entity::MaxHealthModify(Effect* effect)
 
 void Entity::SpeedModify(Effect* effect)
 {
-	speedModifier *= effect->Duration();
+	speedModifier *= effect->Power();
 }
 
 void Entity::Stun(Effect* effect)
 {
-	std::pair<bool, float>* data = (std::pair<bool, float>*)effect->Data();
-	if (data && data->first)
+	if (effect->start)
 	{
-		data->first = false;
-
+		effect->start = false;
+	
 		float num = Random::LCG::GetBoundedRandomFloat(0, 100);
-		if (num > data->second)
+		if (num > effect->Chance())
 			effect->End();
+		else if (walkAudio != nullptr)
+		{
+			walkAudio->SetEvent("moisture_active");
+			walkAudio->PlayFx(walkAudio->GetEventId());
+		}
 	}
 	else
-		entityState = EntityState::STUNED;
+	{
+		if (rigidBody != nullptr)
+			rigidBody->StopInertia();
+		if (agent != nullptr)
+			agent->CancelDestination();
+		entityState = EntityState::ELECTROCUTED;
+		electrocutedAnimation.duration = effect->Duration();
+	}
+
+	if (type == EntityType::PLAYER)
+		((Player*)this)->ForceManageInvincibility();
 }
 
 void Entity::KnockBack(Effect* effect)
 {
-	std::pair<bool, float3>* data = (std::pair<bool, float3>*)effect->Data();
-	if (data && data->first)
+	if (agent != nullptr)
+		agent->CancelDestination(true);
+
+	if (effect->start)
 	{
-		data->first = false;
+		effect->start = false;
 
 		if (rigidBody != nullptr)
 		{
 			rigidBody->StopInertia();
-			rigidBody->AddForce(data->second);
+			rigidBody->AddForce(effect->Direction());
+		}
+
+		knockbackAnimation.duration = effect->Duration();
+	}
+
+	if (type == EntityType::PLAYER)
+		((Player*)this)->ForceManageInvincibility();
+
+	entityState = EntityState::KNOCKEDBACK;
+}
+
+void Entity::Electrocute(Effect* effect)
+{
+	if (effect->start)
+	{
+		effect->start = false;
+		electrocutedAnimation.duration = effect->Duration();
+
+		if (walkAudio != nullptr)
+		{
+			walkAudio->SetEvent("moisture_active");
+			walkAudio->PlayFx(walkAudio->GetEventId());
 		}
 	}
-	entityState = EntityState::STUNED;
+
+	if (rigidBody != nullptr)
+		rigidBody->StopInertia();
+
+	if (agent != nullptr)
+		agent->CancelDestination();
+
+	if (type == EntityType::PLAYER)
+		((Player*)this)->ForceManageInvincibility();
+
+	entityState = EntityState::ELECTROCUTED;
+}
+
+void Entity::PriceModify(Effect* effect)
+{
+	priceModifier *= effect->Power();
+}
+
+void Entity::CooldownModify(Effect* effect)
+{
+	cooldownModifier *= effect->Power();
+}
+
+EntityState Entity::GetEntityState()
+{
+	return entityState;
 }
 
 C_ParticleSystem* Entity::GetParticles(std::string particleName)

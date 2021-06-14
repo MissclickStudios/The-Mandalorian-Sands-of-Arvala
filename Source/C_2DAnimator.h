@@ -8,6 +8,7 @@
 class GameObject;
 class R_Texture;
 class Spritesheet;
+class R_Texture;
 
 typedef unsigned __int32 uint;
 
@@ -27,18 +28,12 @@ public:
 	//Plays the animation
 	void PlayAnimation(bool loop, int animationNumber);
 
-	//Stops current animation
-	void StopAnimation();
-
-	//Gets the current id texture of the animation frame
-	uint GetIdFromAnimation();
-
 	void SetAnimationStepTime(int time);
 	int GetAnimationStepTime();
 
 	bool IsAnimationPlaying();
 
-	void SetSpritesheetTexture(R_Texture* spritesheet, int animationNumber);
+	//void SetSpritesheetTexture(R_Texture* spritesheet, int animationNumber);
 
 	void SetAnimationPlayFromStart(bool x);
 	bool GetAnimationPlayFromStart();
@@ -46,7 +41,8 @@ public:
 	const char* GetName(int animationNum);
 	void ChangeName(const char* name, int animationNum);
 
-	void GetAnimationSprites(const char* name, int animationDestination);
+	void GetAnimationSprites(const char* inputName, int animationDestination);
+	void GetAnimationSprites(const char* inputName, int animationDestination, R_Texture* texture);
 
 	static inline ComponentType GetType() { return ComponentType::ANIMATOR2D; }  
 
@@ -54,18 +50,17 @@ public:
 	Spritesheet*				spritesheet2;
 	Spritesheet*				spritesheet3;
 
-private:
-	uint GetTextureIdFromVector(int index, int animationNum);
-	void LoopAnimation(int animation);
-	int							animationNumberPlaying;
-private:
+	int GetAnimationNumber();
 
-	std::vector<R_Texture*>		animation;
-	std::vector<R_Texture*>		animation1;
-	std::vector<R_Texture*>		animation2;
+	
+private:
+	void LoopAnimation(int animation);
+private:
 	
 	int							animationCounter;
 	uint						animationStepTime;
+
+	int							animationNumberPlaying;
 
 	Timer						animationTimer;
 
@@ -77,9 +72,9 @@ private:
 
 	uint						currentFrameIdTexture;
 
-	std::string					name;
-	std::string					name1;
-	std::string					name2;
+	std::string					name = "";
+	std::string					name1 = "";
+	std::string					name2 = "";
 };
 
 #endif // __C_2DANIMATOR__

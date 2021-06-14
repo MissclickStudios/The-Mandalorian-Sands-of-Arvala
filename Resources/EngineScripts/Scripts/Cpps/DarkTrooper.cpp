@@ -1,5 +1,7 @@
 #include "DarkTrooper.h"
 
+#include "Random.h"
+
 #include "Application.h"
 #include "M_Scene.h"
 #include "M_ResourceManager.h"
@@ -8,6 +10,7 @@
 #include "C_Transform.h"
 #include "C_RigidBody.h"
 #include "C_AudioSource.h"
+#include "C_NavMeshAgent.h"
 
 #include "Player.h"
 
@@ -55,7 +58,10 @@ DarkTrooper* CreateDarkTrooper()
 
 	//Hand Name
 
-	INSPECTOR_STRING(script->handName);
+	INSPECTOR_STRING(script->rightHandName);
+
+	INSPECTOR_SLIDER_INT(script->minCredits, 0, 1000);
+	INSPECTOR_SLIDER_INT(script->maxCredits, 0, 1000);
 
 	return script;
 }
@@ -93,7 +99,7 @@ void DarkTrooper::SetUp()
 	if (blasterGameObject)
 		blasterWeapon = (Weapon*)GetObjectScript(blasterGameObject, ObjectType::WEAPON);
 	if (blasterWeapon)
-		blasterWeapon->SetOwnership(type, hand);
+		blasterWeapon->SetOwnership(type, hand, rightHandName);
 
 	if (shotgun.uid != NULL)
 		shotgunGameObject = App->resourceManager->LoadPrefab(shotgun.uid, App->scene->GetSceneRoot());
@@ -101,25 +107,26 @@ void DarkTrooper::SetUp()
 	if (shotgunGameObject)
 		shotgunWeapon = (Weapon*)GetObjectScript(shotgunGameObject, ObjectType::WEAPON);
 	if (shotgunWeapon)
-		shotgunWeapon->SetOwnership(type, hand);
-
-	for (uint i = 0; i < gameObject->components.size(); ++i)
-	{
-		if (gameObject->components[i]->GetType() == ComponentType::AUDIOSOURCE)
-		{
-			C_AudioSource* source = (C_AudioSource*)gameObject->components[i];
-			std::string name = source->GetEventName();
-
-			if (name == "sandstormtrooper_walking")
-				walkAudio = source;
-			else if (name == "sandstormtrooper_idle")
-				damageAudio = source;
-			else if (name == "sandstormtrooper_death")
-				deathAudio = source;
-		}
-	}
+		shotgunWeapon->SetOwnership(type, hand, rightHandName);
 
 	currentWeapon = blasterWeapon;
+
+	agent = gameObject->GetComponent<C_NavMeshAgent>();
+
+	if (agent != nullptr)
+	{
+		agent->origin = gameObject->GetComponent<C_Transform>()->GetWorldPosition();
+		agent->velocity = ChaseSpeed();
+	}
+
+	//Audios
+	damageAudio = new C_AudioSource(gameObject);
+	deathAudio = new C_AudioSource(gameObject);
+	walkAudio = new C_AudioSource(gameObject);
+	if (damageAudio != nullptr)
+		damageAudio->SetEvent("darktrooper_damaged");
+	if (deathAudio != nullptr)
+		deathAudio->SetEvent("darktrooper_death");
 }
 
 void DarkTrooper::Behavior()
@@ -135,6 +142,13 @@ void DarkTrooper::CleanUp()
 		blasterGameObject->toDelete = true;
 	blasterGameObject = nullptr;
 	blasterWeapon = nullptr;
+
+	if (damageAudio != nullptr)
+		delete damageAudio;
+	if (deathAudio != nullptr)
+		delete deathAudio;
+	if (walkAudio != nullptr)
+		delete walkAudio;
 }
 
 void DarkTrooper::OnCollisionEnter(GameObject* object)
@@ -142,6 +156,16 @@ void DarkTrooper::OnCollisionEnter(GameObject* object)
 	Player* playerScript = (Player*)object->GetScript("Player");
 	if (playerScript)
 		playerScript->TakeDamage(Damage());
+}
+
+void DarkTrooper::EntityPause()
+{
+	if (agent != nullptr)
+		agent->CancelDestination();
+}
+
+void DarkTrooper::EntityResume()
+{
 }
 
 void DarkTrooper::DistanceToPlayer()
@@ -157,15 +181,14 @@ void DarkTrooper::DistanceToPlayer()
 
 	distance = aimDirection.Length();
 	// TODO: Separate aim and movement once the pathfinding is implemented
-	moveDirection = aimDirection;
-
-	if (!moveDirection.IsZero())
-		moveDirection.Normalize();
 }
 
 void DarkTrooper::LookAtPlayer()
 {
-	float rad = aimDirection.AimedAngle();
+	float2 direction = aimDirection;
+	if (moveState != DarkTrooperState::IDLE)
+		direction = moveDirection;
+	float rad = direction.AimedAngle();
 
 	if (skeleton)
 		skeleton->transform->SetLocalRotation(float3(0, -rad + DegToRad(90), 0));
@@ -173,6 +196,12 @@ void DarkTrooper::LookAtPlayer()
 
 void DarkTrooper::ManageMovement()
 {
+	if (dieAfterStun == 2)
+	{
+		dieAfterStun = 3;
+		moveState = DarkTrooperState::DEAD_IN;
+		deathTimer.Resume();
+	}
 	if (moveState != DarkTrooperState::DEAD)
 	{
 		if (health <= 0.0f)
@@ -211,7 +240,7 @@ void DarkTrooper::ManageMovement()
 		}
 		break;
 	case DarkTrooperState::PATROL:
-		currentAnimation = &walkAnimation;
+		currentAnimation = &idleAnimation;
 		if (distance < chaseDistance)
 		{
 			moveState = DarkTrooperState::CHASE;
@@ -224,6 +253,11 @@ void DarkTrooper::ManageMovement()
 		if (distance < attackDistance)
 		{
 			moveState = DarkTrooperState::IDLE;
+			break;
+		}
+		if (distance > chaseDistance)
+		{
+			moveState = DarkTrooperState::PATROL;
 			break;
 		}
 		Chase();
@@ -247,12 +281,15 @@ void DarkTrooper::ManageMovement()
 		if (player)
 		{
 			Player* playerScript = (Player*)player->GetScript("Player");
-			playerScript->currency += 50;
+			if (dieAfterStun == 1)
+				playerScript->GiveCredits(Random::LCG::GetBoundedRandomUint(minCredits, maxCredits));
 		}
 		deathTimer.Start();
 		moveState = DarkTrooperState::DEAD;
 
 	case DarkTrooperState::DEAD:
+		if (dieAfterStun > 1)
+			deathTimer.Resume();
 		if (deathTimer.ReadSec() >= deathDuration)
 			Deactivate();
 		break;
@@ -271,7 +308,6 @@ void DarkTrooper::ManageAim()
 		aimState = AimState::IDLE;
 		break;
 	case AimState::SHOOT_IN:
-		currentAnimation = &shootAnimation;
 		aimState = AimState::SHOOT;
 
 	case AimState::SHOOT:
@@ -283,7 +319,7 @@ void DarkTrooper::ManageAim()
 				currentAnimation = nullptr;
 				aimState = AimState::ON_GUARD;
 				break;
-			case ShootState::WAINTING_FOR_NEXT:
+			case ShootState::WAITING_FOR_NEXT:
 				break;
 			case ShootState::FIRED_PROJECTILE:
 				currentAnimation = nullptr;
@@ -316,18 +352,26 @@ void DarkTrooper::ManageAim()
 
 void DarkTrooper::Patrol()
 {
-	if (rigidBody != nullptr)
-		rigidBody->SetLinearVelocity(float3::zero);
+	if (agent != nullptr)
+		agent->StopAndCancelDestination();
 }
 
 void DarkTrooper::Chase()
 {
-	if (rigidBody != nullptr)
-		rigidBody->Set2DVelocity(moveDirection * ChaseSpeed());
+	if (agent != nullptr)
+	{
+		agent->velocity = 20.f;
+
+		agent->SetDestination(player->transform->GetWorldPosition());
+		moveDirection = float2(agent->direction.x, agent->direction.z);
+
+		runAnimation.duration = 4 / speedModifier;
+
+	}
 }
 
 void DarkTrooper::Flee()
 {
-	if (rigidBody != nullptr)
-		rigidBody->Set2DVelocity(-moveDirection * ChaseSpeed());
+	if (agent != nullptr)
+		agent->SetDestination(-player->transform->GetWorldPosition());
 }

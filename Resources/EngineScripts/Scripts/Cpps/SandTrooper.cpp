@@ -1,4 +1,5 @@
 #include "SandTrooper.h"
+#include "Random.h"
 
 #include "Application.h"
 #include "M_Scene.h"
@@ -8,6 +9,9 @@
 #include "C_Transform.h"
 #include "C_RigidBody.h"
 #include "C_AudioSource.h"
+#include "C_NavMeshAgent.h"
+
+#include "MathGeoLib/include/Math/float2.h"
 
 #include "Player.h"
 
@@ -53,7 +57,10 @@ Trooper* CreateTrooper()
 
 	//Hand Name
 
-	INSPECTOR_STRING(script->handName);
+	INSPECTOR_STRING(script->rightHandName);
+
+	INSPECTOR_SLIDER_INT(script->minCredits, 0, 1000);
+	INSPECTOR_SLIDER_INT(script->maxCredits, 0, 1000);
 
 	return script;
 }
@@ -93,21 +100,22 @@ void Trooper::SetUp()
 	if (blasterWeapon)
 		blasterWeapon->SetOwnership(type, hand);
 
-	for (uint i = 0; i < gameObject->components.size(); ++i)
-	{
-		if (gameObject->components[i]->GetType() == ComponentType::AUDIOSOURCE)
-		{
-			C_AudioSource* source = (C_AudioSource*)gameObject->components[i];
-			std::string name = source->GetEventName();
+	agent = gameObject->GetComponent<C_NavMeshAgent>();
 
-			if (name == "sandstormtrooper_walking")
-				walkAudio = source;
-			else if (name == "sandstormtrooper_idle")
-				damageAudio = source;
-			else if (name == "sandstormtrooper_death")
-				deathAudio = source;
-		}
+	if (agent != nullptr)
+	{
+		agent->origin = gameObject->GetComponent<C_Transform>()->GetWorldPosition();
+		agent->velocity = ChaseSpeed();
 	}
+
+	//Audios
+	damageAudio = new C_AudioSource(gameObject);
+	deathAudio = new C_AudioSource(gameObject);
+	walkAudio = new C_AudioSource(gameObject);
+	if (damageAudio != nullptr)
+		damageAudio->SetEvent("sandtrooper_damaged");
+	if (deathAudio != nullptr)
+		deathAudio->SetEvent("sandtrooper_death");		
 }
 
 void Trooper::Behavior()
@@ -123,10 +131,19 @@ void Trooper::CleanUp()
 		blasterGameObject->toDelete = true;
 	blasterGameObject = nullptr;
 	blasterWeapon = nullptr;
+
+	if (damageAudio != nullptr)
+		delete damageAudio;
+	if (deathAudio != nullptr)
+		delete deathAudio;
+	if (walkAudio != nullptr)
+		delete walkAudio;
 }
 
 void Trooper::EntityPause()
 {
+	if (agent != nullptr)
+		agent->CancelDestination();
 }
 
 void Trooper::EntityResume()
@@ -149,19 +166,19 @@ void Trooper::DistanceToPlayer()
 	playerPosition.y = player->transform->GetWorldPosition().z;
 	position.x = gameObject->transform->GetWorldPosition().x;
 	position.y = gameObject->transform->GetWorldPosition().z;
+
 	aimDirection = playerPosition - position;
 
 	distance = aimDirection.Length();
 	// TODO: Separate aim and movement once the pathfinding is implemented
-	moveDirection = aimDirection;
-
-	if (!moveDirection.IsZero())
-		moveDirection.Normalize();
 }
 
 void Trooper::LookAtPlayer()
 {
-	float rad = aimDirection.AimedAngle();
+	float2 direction = aimDirection;
+	if (moveState != TrooperState::IDLE)
+		direction = moveDirection;
+	float rad = direction.AimedAngle();
 
 	if (skeleton)
 		skeleton->transform->SetLocalRotation(float3(0, -rad + DegToRad(90), 0));
@@ -169,6 +186,12 @@ void Trooper::LookAtPlayer()
 
 void Trooper::ManageMovement()
 {
+	if (dieAfterStun == 2)
+	{
+		dieAfterStun = 3;
+		moveState = TrooperState::DEAD_IN;
+		deathTimer.Resume();
+	}
 	if (moveState != TrooperState::DEAD)
 	{
 		if (health <= 0.0f)
@@ -205,7 +228,7 @@ void Trooper::ManageMovement()
 		}
 		break;
 	case TrooperState::PATROL:
-		currentAnimation = &walkAnimation;
+		currentAnimation = &idleAnimation;
 		if (distance < chaseDistance)
 		{
 			moveState = TrooperState::CHASE;
@@ -218,6 +241,11 @@ void Trooper::ManageMovement()
 		if (distance < attackDistance)
 		{
 			moveState = TrooperState::IDLE;
+			break;
+		}
+		if (distance > chaseDistance)
+		{
+			moveState = TrooperState::PATROL;
 			break;
 		}
 		Chase();
@@ -241,12 +269,15 @@ void Trooper::ManageMovement()
 		if (player)
 		{
 			Player* playerScript = (Player*)player->GetScript("Player");
-			playerScript->currency += 50;
+			if (dieAfterStun == 1)
+				playerScript->GiveCredits(Random::LCG::GetBoundedRandomUint(minCredits, maxCredits));
 		}
 		deathTimer.Start();
 		moveState = TrooperState::DEAD;
 
 	case TrooperState::DEAD:
+		if (dieAfterStun > 1)
+			deathTimer.Resume();
 		if (deathTimer.ReadSec() >= deathDuration)
 			Deactivate();
 		break;
@@ -265,7 +296,6 @@ void Trooper::ManageAim()
 		aimState = AimState::IDLE;
 		break;
 	case AimState::SHOOT_IN:
-		currentAnimation = &shootAnimation;
 		aimState = AimState::SHOOT;
 
 	case AimState::SHOOT:
@@ -277,7 +307,7 @@ void Trooper::ManageAim()
 				currentAnimation = nullptr;
 			aimState = AimState::ON_GUARD;
 				break;
-			case ShootState::WAINTING_FOR_NEXT:
+			case ShootState::WAITING_FOR_NEXT:
 				break;
 			case ShootState::FIRED_PROJECTILE:
 				currentAnimation = nullptr;
@@ -293,9 +323,11 @@ void Trooper::ManageAim()
 			}
 		break;
 	case AimState::RELOAD_IN:
+		currentAnimation = &idleAnimation;
 		aimState = AimState::RELOAD;
 
 	case AimState::RELOAD:
+		currentAnimation = &idleAnimation;
 		if (blasterWeapon && blasterWeapon->Reload())
 			aimState = AimState::ON_GUARD;
 		break;
@@ -310,18 +342,24 @@ void Trooper::ManageAim()
 
 void Trooper::Patrol()
 {
-	if (rigidBody != nullptr)
-		rigidBody->SetLinearVelocity(float3::zero);
+	if (agent != nullptr)
+		agent->StopAndCancelDestination();
 }
 
 void Trooper::Chase()
 {
-	if (rigidBody != nullptr)
-		rigidBody->Set2DVelocity(moveDirection * ChaseSpeed());
+	if (agent != nullptr)
+	{
+		agent->SetDestination(player->transform->GetWorldPosition());
+		moveDirection = float2(agent->direction.x, agent->direction.z);
+
+		runAnimation.duration = 2 / speedModifier;
+	}
 }
 
 void Trooper::Flee()
 {
-	if (rigidBody != nullptr)
-		rigidBody->Set2DVelocity(-moveDirection * ChaseSpeed());
+	if (agent != nullptr)
+		agent->SetDestination(-player->transform->GetWorldPosition());
 }
+

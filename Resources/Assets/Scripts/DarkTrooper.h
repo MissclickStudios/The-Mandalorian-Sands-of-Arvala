@@ -35,6 +35,9 @@ public:
 
 	void OnCollisionEnter(GameObject* object) override;
 
+	void EntityPause() override;
+	void EntityResume() override;
+
 	// Movement
 	std::string playerName = "Mandalorian";
 
@@ -66,6 +69,9 @@ public:
 
 	// Audio
 	C_AudioSource* deathAudio = nullptr;
+
+	int minCredits = 0.f;
+	int maxCredits = 0.f;
 
 private:
 

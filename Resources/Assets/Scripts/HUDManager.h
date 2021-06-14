@@ -1,15 +1,18 @@
 #pragma once
+#include <vector>
 #include <string>
 #include "Script.h"
 #include "ScriptMacros.h"
+#include "Weapon.h"
+
+#define MAX_HEARTS 6
 
 
 class GameObject;
 class C_2DAnimator;
 class C_UI_Text;
-class C_Material;
+class C_UI_Image;
 class Player;
-class R_Texture;
 
 class SCRIPTS_API HUDManager : public Script {
 public:
@@ -19,6 +22,8 @@ public:
 	void Start() override;
 	void Update() override;
 	void CleanUp() override;
+
+	void ManageWeaponHUD();
 
 	std::string mandoImageName = "Mando";
 	std::string secondaryWeaponImageName = "SecodaryWeapon";
@@ -31,10 +36,14 @@ public:
 	std::string beskarTextName = "BeskarText";
 	std::string ammoTextName = "AmmoText";
 
+	std::string weapon1Name = "pog1";
+	std::string weapon2Name = "pog2";
+	std::string weapon3Name = "pog3";
+	std::string weapon4Name = "pog4";
 
-	std::string heart1Name = "Heart1";
-	std::string heart2Name = "Heart2";
-	std::string heart3Name = "Heart3";
+	std::vector<std::string> disabledScenes;
+	bool enabled = true;
+
 private:
 	C_2DAnimator* mandoImage;
 	C_2DAnimator* secondaryWeaponImage;
@@ -42,12 +51,13 @@ private:
 	C_2DAnimator* dashImage;
 	C_2DAnimator* creditsImage;
 
-	C_2DAnimator* heart1Image;
-	C_2DAnimator* heart2Image;
-	C_2DAnimator* heart3Image;
-
 	GameObject* playerObject;
 	Player* player;
+
+	GameObject* weapon1;
+	GameObject* weapon2;
+	GameObject* weapon3;
+	GameObject* weapon4;
 
 	C_Canvas* hudCanvas = nullptr;
 
@@ -55,38 +65,22 @@ private:
 	C_UI_Text* beskarText = nullptr;
 	C_UI_Text* ammoText = nullptr;
 
-	C_Material* heart1;
-	C_Material* heart2;
-	C_Material* heart3;
-
-	R_Texture* halfHeart;
-	R_Texture* fullHeart;
-	R_Texture* emptyHeart;
+	WeaponType type;
+	
+	int halfHeart[4]{ -3892, -658, 134, 124 };
+	int fullHeart[4]{ -4019, -658, 134, 124 };
+	int emptyHeart[4]{ -220, -531, 134, 124 };
+	int noRender[4]{ -4150, -658, 134, 124 };
 
 	bool hitAlready;
+	bool setUpHealth = true;
+	float playerHealth = 12.0f;
+	float playerMaxHp = 12.0f;
+	int currentHealthIndex = 0;
+	C_2DAnimator* heartsAnimations[MAX_HEARTS]{};
+	C_UI_Image* hearts[MAX_HEARTS]{};
 
-	bool health1;
-	bool health2;
-	bool health3;
-	bool health4;
-	bool health5;
-	bool health6;
-
-
-	void ManageHeartImage(int hp);
+	void SetUpHealth(float hp, int maxHp);
 };
 
-SCRIPTS_FUNCTION HUDManager* CreateHUDManager() {
-	HUDManager* script = new HUDManager();
-	INSPECTOR_STRING(script->mandoImageName);
-	INSPECTOR_STRING(script->secondaryWeaponImageName);
-	INSPECTOR_STRING(script->primaryWeaponImageName);
-	INSPECTOR_STRING(script->dashImageName);
-	INSPECTOR_STRING(script->creditsImageName);
-	INSPECTOR_STRING(script->playerName);
-
-	INSPECTOR_STRING(script->creditsTextName);
-	INSPECTOR_STRING(script->beskarTextName);
-	INSPECTOR_STRING(script->ammoTextName);
-	return script;
-}
+SCRIPTS_FUNCTION HUDManager* CreateHUDManager();

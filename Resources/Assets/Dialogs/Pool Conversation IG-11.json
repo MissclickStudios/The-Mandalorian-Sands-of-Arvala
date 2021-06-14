@@ -1,0 +1,99 @@
+{
+	"DialogSystemName": "Pool_Conversation_Bosses",
+	"DialogPool": [
+		{
+			"DialogName": "Dialog_Boss_1",
+			"Lines": [
+				{
+					"Speaker": "Mando",
+					"Text": "Why do they keep repairing you? You are annoying…"
+				},
+				{
+					"Speaker": "IG-11",
+					"Text": "It is all due to the fulfillment of my services."
+				}
+			]
+		},
+		{
+			"DialogName": "Dialog_Boss_2",
+			"Lines": [
+				{
+					"Speaker": "Mando",
+					"Text": "You have to be kidding me… I will find whoever is reprogramming you and I will chase him to death."
+				},
+				{
+					"Speaker": "IG-11",
+					"Text": "I can not let you do that. My program indicates that you must die instantly."
+				}
+			]
+		},
+		{
+			"DialogName": "Dialog_Boss_3",
+			"Lines": [
+				{
+					"Speaker": "IG-11",
+					"Text": "Hello I am here to..."
+				},
+				{
+					"Speaker": "Mando",
+					"Text": "Can we just avoid this talk and go straight to the point? They are waiting for me."
+				}
+			]
+		},
+		{
+			"DialogName": "Dialog_Boss_4",
+			"Lines": [
+				{
+					"Speaker": "Mando",
+					"Text": "Can I ask you something? Why would anybody like to be with such a piece of junk, cables and gears like you?"
+				},
+				{
+					"Speaker": "IG-11",
+					"Text": "I am not allowed to do that."
+				},
+				{
+					"Speaker": "Mando",
+					"Text": "To do what?"
+				},
+				{
+					"Speaker": "IG-11",
+					"Text": "Answering such a stupid question…"
+				},
+				{
+					"Speaker": "Mando",
+					"Text": "Nice! Now this freakin robot is making fun of me!"
+				}
+			]
+		},
+		{
+			"DialogName": "Dialog_Boss_6",
+			"Lines": [
+				{
+					"Speaker": "Mando",
+					"Text": "Can you please tell your creators to create better units. I am getting bored with you buddy."
+				},
+				{
+					"Speaker": "IG-11",
+					"Text": "..."
+				}
+			]
+		},
+		{
+			"DialogName": "Dialog_Boss_7",
+			"Lines": [
+				{
+					"Speaker": "Mando",
+					"Text": "You know? We could have worked together. I have to admit that you are not bad..."
+				},
+				{
+					"Speaker": "IG-11",
+					"Text": "What does push you away from that decision?"
+				},
+				{
+					"Speaker": "Mando",
+					"Text": "Mmmmmm, I just hate your specie, nothing else."
+				}
+			]
+		}
+	]
+}
